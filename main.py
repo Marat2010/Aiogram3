@@ -15,13 +15,13 @@ from aiogram.utils.markdown import hbold
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
 # ============ .env ===================
-from decouple import AutoConfig
-config = AutoConfig()
+#from decouple import AutoConfig
+#config = AutoConfig()
+#TOKEN = config('BOT_TOKEN')
 # =====================================
 
 # Bot token can be obtained via https://t.me/BotFather
-# TOKEN = getenv("BOT_TOKEN")
-TOKEN = config('BOT_TOKEN')
+TOKEN = getenv("BOT_TOKEN")
 
 # Webserver settings
 # bind localhost only to prevent any external access
