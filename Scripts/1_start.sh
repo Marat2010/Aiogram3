@@ -70,6 +70,14 @@ then
     echo "=== Пользователю '$user_ftp' открыт доступ по FTP ==="
 fi
 
+mkdir "/home/$user_ftp/Scripts"
+
+echo
+echo "=== Копирование скриптов ==="
+
+wget -O "/home/$user_ftp/Scripts/1_start.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
+wget -O "/home/$user_ftp/Scripts/2_venv.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/2_venv.sh
+
 # ---- Смена пароля root-а --------
 
 echo 

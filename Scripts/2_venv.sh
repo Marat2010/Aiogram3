@@ -31,7 +31,9 @@ echo
 echo "=== Копирование файлов ==="
 wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/main.py
 wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/requirements.txt
-wget https://github.com/Marat2010/Aiogram3/tree/95aa47ff90f2ad1600672d2c76457c0c511ed03a/Scripts
+
+#wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
+#wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/2_venv.sh
 
 echo
 echo "=== Установка Aiogram 3.2.0 ==="
