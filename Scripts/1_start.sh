@@ -77,6 +77,8 @@ echo "=== Копирование скриптов ==="
 
 wget -O "/home/$user_ftp/Scripts/1_start.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
 wget -O "/home/$user_ftp/Scripts/2_venv.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/2_venv.sh
+sudo chown -R $user_ftp:$user_ftp "/home/$user_ftp/Scripts"
+chmod +x "/home/$user_ftp/Scripts/*"
 
 # ---- Смена пароля root-а --------
 
