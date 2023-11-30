@@ -30,14 +30,16 @@ WEB_SERVER_HOST = "127.0.0.1"
 WEB_SERVER_PORT = 8080
 
 # Path to webhook route, on which Telegram will send requests
-WEBHOOK_PATH = "/webhook"
+# WEBHOOK_PATH = "/webhook"
+WEBHOOK_PATH = "/" + getenv("PROJECT_NAME")
+
 # Secret key to validate requests from Telegram (optional)
 WEBHOOK_SECRET = "my-secret"
 # Base URL for webhook will be used to generate webhook URL for Telegram,
 # in this example it is used public DNS with HTTPS support
 # BASE_WEBHOOK_URL = "https://aiogram.dev/"
 # BASE_WEBHOOK_URL = "https://8a7c-178-205-151-66.ngrok-free.app"
-BASE_WEBHOOK_URL = "https://e469-178-205-151-66.ngrok-free.app"
+BASE_WEBHOOK_URL = getenv("DOMAIN_NAME")
 
 
 # All handlers should be attached to the Router (or Dispatcher)
