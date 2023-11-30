@@ -75,7 +75,8 @@ mkdir "/home/$user_ftp/Scripts"
 echo
 echo "=== Копирование скриптов в каталог пользователя $user_ftp ==="
 
-gh repo clone Marat2010/Aiogram3
+git clone https://github.com/Marat2010/Aiogram3
+#gh repo clone Marat2010/Aiogram3
 
 cp -R Aiogram3/Scripts /home/$user_ftp/
 sudo chown -R $user_ftp:$user_ftp "/home/$user_ftp/Scripts"
