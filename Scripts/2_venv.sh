@@ -29,11 +29,10 @@ source venv/bin/activate
 
 echo
 echo "=== Копирование файлов ==="
-wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/main.py
-wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/requirements.txt
-
-#wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
-#wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/2_venv.sh
+sudo cp -R /root/Aiogram3/Scripts ./
+sudo cp -R /root/Aiogram3/Service ./
+sudo cp -R /root/Aiogram3/Nginx ./
+sudo cp -R /root/Aiogram3/main.py ./
 
 echo
 echo "=== Установка Aiogram 3.2.0 ==="
@@ -42,7 +41,7 @@ pip install aiogram==3.2.0
 #pip install -r requirements.txt
 
 echo
-echo "=== Установка переменных окружения (BOT_TOKEN)===" 
+echo "=== Установка переменных окружения ===" 
 echo
 read -p "=== Введите токен телеграмм бота: " bot_token
 echo "BOT_TOKEN='$bot_token'" | sudo tee -a /etc/environment
@@ -58,6 +57,18 @@ sudo mkcert -install $domain_name
 mv $domain_name-key.pem $domain_name.key
 mv $domain_name.pem $domain_name.crt
 
+echo
+echo "=== Запуск сервиса (SYSTEMD) бота ===" 
+echo
+sudo ln -s /home/$USER/$proj_name/Service/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
+sudo systemctl daemon-reload
+sudo systemctl enable Aiogram3_bot.service
+
+
+#===============================
+#wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/main.py
+#wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/requirements.txt
+#-----------------------------
 #. /etc/environment
 #source /etc/environment
 

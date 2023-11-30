@@ -73,10 +73,11 @@ fi
 mkdir "/home/$user_ftp/Scripts"
 
 echo
-echo "=== Копирование скриптов ==="
+echo "=== Копирование скриптов в каталог пользователя $user_ftp ==="
 
-wget -O "/home/$user_ftp/Scripts/1_start.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
-wget -O "/home/$user_ftp/Scripts/2_venv.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/2_venv.sh
+gh repo clone Marat2010/Aiogram3
+
+cp -R Aiogram3/Scripts /home/$user_ftp/
 sudo chown -R $user_ftp:$user_ftp "/home/$user_ftp/Scripts"
 chmod +x -R "/home/$user_ftp/Scripts"
 
@@ -89,4 +90,8 @@ if [ "$change_passwd_root" == "y" ]
 then
     sudo passwd root
 fi
+
+#==============================
+#wget -O "/home/$user_ftp/Scripts/1_start.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
+#wget -O "/home/$user_ftp/Scripts/2_venv.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/2_venv.sh
 
