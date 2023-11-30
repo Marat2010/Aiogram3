@@ -3,22 +3,26 @@
 # ---- Инструкция по запуску FTP сервера здесь: --------
 # https://help.reg.ru/support/servery-vps/oblachnyye-servery/ustanovka-programmnogo-obespecheniya/kak-ustanovit-ftp-server-na-ubuntu
 
-sudo chmod +x start.sh
+sudo chmod +x 1_start.sh
 
 # ---- Установка FTP сервера --------
 
 sudo apt update
+echo
 echo "=== Установка FTP сервера ==="
 sudo apt -y install vsftpd
 sudo systemctl enable vsftpd
 
 # ---- Установка Midnight Commander --------
 
+echo
 echo "=== Установка Midnight Commander ==="
 sudo apt -y install mc
 
 # ---- Настройка FTP сервера --------
 
+echo
+echo "=== Настройка FTP сервера ==="
 sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.original
 
 echo "listen=YES" > /etc/vsftpd.conf
@@ -41,6 +45,7 @@ echo "userlist_file=/etc/vsftpd.userlist" >> /etc/vsftpd.conf
 echo "userlist_deny=NO" >> /etc/vsftpd.conf
 echo "" >> /etc/vsftpd.conf
 
+echo
 echo "=== Формирование SSL-сертификата для FTP ==="
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem
 
@@ -53,8 +58,8 @@ sudo systemctl restart vsftpd
 
 # ---- Добавление и настройка пользователя --------
 
-echo "=== Введите имя пользователя для доступа по FTP: ==="
-read user_ftp
+echo
+read -p "=== Введите имя пользователя для доступа по FTP: " user_ftp
 
 if [ ! -z $user_ftp ]
 then
@@ -67,13 +72,11 @@ fi
 
 # ---- Смена пароля root-а --------
 
-echo "=== Сменить пароль пользователя root? [y/N] ==="
-read change_passwd_root
+echo 
+read "=== Сменить у пользователя root пароль? [y/N]: " change_passwd_root
 
 if [ "$change_passwd_root" == "y" ]
 then
     sudo passwd root
 fi
-
-
 
