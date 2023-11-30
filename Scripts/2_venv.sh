@@ -14,7 +14,7 @@ echo "=== Установка пакета mkcert (SSL) ==="
 sudo apt -y install mkcert
 
 echo 
-read "=== Введите название проекта (папки): " proj_name
+read -p "=== Введите название проекта (папки): " proj_name
 echo "PROJECT_NAME='$proj_name'" | sudo tee -a /etc/environment
 mkdir ~/$proj_name
 cd ~/$proj_name
@@ -44,17 +44,17 @@ pip install aiogram==3.2.0
 echo
 echo "=== Установка переменных окружения (BOT_TOKEN)===" 
 echo
-read "=== Введите токен телеграмм бота: " bot_token
+read -p "=== Введите токен телеграмм бота: " bot_token
 echo "BOT_TOKEN='$bot_token'" | sudo tee -a /etc/environment
 
 echo
 echo "=== Подготовка SSL сертификата ===" 
 echo
-read "=== Введите имя домена или IP адрес: " domain_name
+read -p "=== Введите имя домена или IP адрес: " domain_name
 echo "DOMAIN_NAME='$domain_name'" | sudo tee -a /etc/environment
 mkdir SSL
 cd SSL
-sudo mkcert $domain_name
+sudo mkcert -install $domain_name
 mv $domain_name-key.pem $domain_name.key
 mv $domain_name.pem $domain_name.crt
 
