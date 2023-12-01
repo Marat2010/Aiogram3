@@ -33,6 +33,7 @@ sudo cp -R /root/Aiogram3/Scripts ./
 sudo cp -R /root/Aiogram3/Service ./
 sudo cp -R /root/Aiogram3/Nginx ./
 sudo cp -R /root/Aiogram3/main.py ./
+sudo chown -R $USER:$USER ./
 
 echo
 echo "=== Установка Aiogram 3.2.0 ==="
@@ -60,7 +61,8 @@ mv $domain_name.pem $domain_name.crt
 echo
 echo "=== Запуск сервиса (SYSTEMD) бота ===" 
 echo
-sudo ln -s /home/$USER/$proj_name/Service/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
+sudo cp /home/$USER/$proj_name/Service/Aiogram3_bot.service /lib/systemd/system/Aiogram3_bot.service
+sudo ln -s /lib/systemd/system/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
 sudo systemctl daemon-reload
 sudo systemctl enable Aiogram3_bot.service
 

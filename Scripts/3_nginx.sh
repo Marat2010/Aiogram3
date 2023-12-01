@@ -10,5 +10,5 @@ sudo systemctl enable nginx
 
 echo
 echo "=== Настройка Nginx ==="
-sudo cp ~/Aiogram3/Nginx/nginx_bot.conf /etc/nginx/sites-available/
+sudo cp ~/$PROJECT_NAME/Nginx/nginx_bot.conf /etc/nginx/sites-available/
 
