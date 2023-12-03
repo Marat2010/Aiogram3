@@ -85,7 +85,7 @@ chmod +x -R "/home/$user_ftp/Scripts"
 # ---- Смена пароля root-а --------
 
 echo 
-read -p "=== Сменить у пользователя root пароль? [y/N]: " change_passwd_root
+read -p "=== Сменить у пользователя 'root' пароль? [y/N]: " change_passwd_root
 
 if [ "$change_passwd_root" == "y" ]
 then

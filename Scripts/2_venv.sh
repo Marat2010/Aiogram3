@@ -2,8 +2,6 @@
 
 # --- Выполнять под пользователем (не root) ---
 
-chmod +x 2_venv.sh
-
 sudo apt update
 echo
 echo "=== Установка модуля VENV ==="
@@ -53,11 +51,11 @@ echo "=== Подготовка SSL сертификата ==="
 echo
 read -p "=== Введите имя домена или IP адрес: " domain_name
 echo "DOMAIN_NAME='$domain_name'" | sudo tee -a /etc/environment
-mkdir SSL
-cd SSL
+
 sudo mkcert -install $domain_name
-mv $domain_name-key.pem $domain_name.key
-mv $domain_name.pem $domain_name.crt
+mkdir SSL
+mv $domain_name-key.pem SSL/$domain_name.key
+mv $domain_name.pem SSL/$domain_name.crt
 
 echo
 echo "=== Запуск сервиса (SYSTEMD) бота ===" 
