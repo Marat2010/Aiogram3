@@ -10,7 +10,7 @@ Restart=on-failure
 
 EnvironmentFile=/etc/environment
 
-ExecStart=/bin/bash -c 'cd /home/$RUN_USER/$PROJECT_NAME/ && source venv/bin/activate && python main.py'
+ExecStart=/bin/bash -c 'cd /home/$PROJECT_USER/$PROJECT_NAME/ && source venv/bin/activate && python main.py'
 
 [Install]
 WantedBy=multi-user.target

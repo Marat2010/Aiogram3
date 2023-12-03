@@ -60,6 +60,9 @@ sudo systemctl restart vsftpd
 
 echo
 read -p "=== Введите имя пользователя для проекта: " proj_user
+echo
+echo "=== Установка переменных окружения ===" 
+echo "PROJECT_USER='$proj_user'" | sudo tee -a /etc/environment
 
 if [ ! -z $proj_user ]
 then

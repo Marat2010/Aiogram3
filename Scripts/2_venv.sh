@@ -46,7 +46,6 @@ echo
 echo "=== Установка переменных окружения ===" 
 echo "BOT_TOKEN='$bot_token'" | sudo tee -a /etc/environment
 echo "PROJECT_NAME='$proj_name'" | sudo tee -a /etc/environment
-echo "PROJECT_USER='$USER'" | sudo tee -a /etc/environment
 
 echo
 echo "=== Запуск сервиса (SYSTEMD) бота ===" 
