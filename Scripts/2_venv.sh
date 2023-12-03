@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# --- Выполнять под пользователем (не root) ---
+# --- Выполнять под пользователем проекта (не root) ---
 
 sudo apt update
 echo
@@ -13,7 +13,6 @@ sudo apt -y install mkcert
 
 echo 
 read -p "=== Введите название проекта (папки): " proj_name
-echo "PROJECT_NAME='$proj_name'" | sudo tee -a /etc/environment
 mkdir ~/$proj_name
 cd ~/$proj_name
 
@@ -30,47 +29,40 @@ echo "=== Копирование файлов ==="
 sudo cp -R /root/Aiogram3/Scripts ./
 sudo cp -R /root/Aiogram3/Service ./
 sudo cp -R /root/Aiogram3/Nginx ./
-sudo cp -R /root/Aiogram3/main.py ./
+sudo cp /root/Aiogram3/main.py ./
+sudo cp /root/Aiogram3/bot.html ./
 sudo chown -R $USER:$USER ./
+sudo rm -rf /root/Aiogram3
 
 echo
 echo "=== Установка Aiogram 3.2.0 ==="
 pip3 install --upgrade pip
 pip install aiogram==3.2.0
-#pip install -r requirements.txt
+pip freeze > requirements.txt
 
-echo
-echo "=== Установка переменных окружения ===" 
 echo
 read -p "=== Введите токен телеграмм бота: " bot_token
+echo
+echo "=== Установка переменных окружения ===" 
 echo "BOT_TOKEN='$bot_token'" | sudo tee -a /etc/environment
-echo "RUN_USER='$USER'" | sudo tee -a /etc/environment
-
-echo
-echo "=== Подготовка SSL сертификата ===" 
-echo
-read -p "=== Введите имя домена или IP адрес: " domain_name
-echo "DOMAIN_NAME='$domain_name'" | sudo tee -a /etc/environment
-
-sudo mkcert -install $domain_name
-mkdir SSL
-mv $domain_name-key.pem SSL/$domain_name.key
-mv $domain_name.pem SSL/$domain_name.crt
+echo "PROJECT_NAME='$proj_name'" | sudo tee -a /etc/environment
+echo "PROJECT_USER='$USER'" | sudo tee -a /etc/environment
 
 echo
 echo "=== Запуск сервиса (SYSTEMD) бота ===" 
 echo
 sudo cp /home/$USER/$proj_name/Service/Aiogram3_bot.service /lib/systemd/system/Aiogram3_bot.service
-#sudo ln -s /lib/systemd/system/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
 sudo systemctl daemon-reload
 sudo systemctl enable Aiogram3_bot.service
 sudo systemctl start Aiogram3_bot.service
 
 
-#===============================
+#============================================
 #wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/main.py
 #wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/requirements.txt
 #-----------------------------
+#pip install -r requirements.txt
+#sudo ln -s /lib/systemd/system/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
 #. /etc/environment
 #source /etc/environment
 

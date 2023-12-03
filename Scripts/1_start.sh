@@ -1,6 +1,6 @@
 #!/bin/bash
 
-# ---- Инструкция по запуску FTP сервера здесь: --------
+# ---- Взято с инструкции по запуску FTP сервера здесь: --------
 # https://help.reg.ru/support/servery-vps/oblachnyye-servery/ustanovka-programmnogo-obespecheniya/kak-ustanovit-ftp-server-na-ubuntu
 
 sudo chmod +x 1_start.sh
@@ -59,28 +59,28 @@ sudo systemctl restart vsftpd
 # ---- Добавление и настройка пользователя --------
 
 echo
-read -p "=== Введите имя пользователя для доступа по FTP: " user_ftp
+read -p "=== Введите имя пользователя для проекта: " proj_user
 
-if [ ! -z $user_ftp ]
+if [ ! -z $proj_user ]
 then
-    sudo adduser $user_ftp
-    sudo usermod -aG sudo $user_ftp
-    echo "=== Пользователь '$user_ftp' в группе 'sudo' ==="
-    echo $user_ftp | sudo tee -a /etc/vsftpd.userlist
-    echo "=== Пользователю '$user_ftp' открыт доступ по FTP ==="
+    sudo adduser $proj_user
+    sudo usermod -aG sudo $proj_user
+    echo "=== Пользователь '$proj_user' в группе 'sudo' ==="
+
+    echo $proj_user | sudo tee -a /etc/vsftpd.userlist
+    echo "=== Пользователю '$proj_user' открыт доступ по FTP ==="
 fi
 
-mkdir "/home/$user_ftp/Scripts"
+mkdir "/home/$proj_user/Scripts"
 
 echo
-echo "=== Копирование скриптов в каталог пользователя $user_ftp ==="
+echo "=== Копирование скриптов в каталог пользователя $proj_user ==="
 
 git clone https://github.com/Marat2010/Aiogram3
-#gh repo clone Marat2010/Aiogram3
 
-cp -R Aiogram3/Scripts /home/$user_ftp/
-sudo chown -R $user_ftp:$user_ftp "/home/$user_ftp/Scripts"
-chmod +x -R "/home/$user_ftp/Scripts"
+cp -R Aiogram3/Scripts /home/$proj_user/
+sudo chown -R $proj_user:$proj_user "/home/$proj_user/Scripts"
+chmod +x -R "/home/$proj_user/Scripts"
 
 # ---- Смена пароля root-а --------
 
@@ -92,7 +92,10 @@ then
     sudo passwd root
 fi
 
-#==============================
-#wget -O "/home/$user_ftp/Scripts/1_start.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
-#wget -O "/home/$user_ftp/Scripts/2_venv.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/2_venv.sh
+#========================================================
+#gh repo clone Marat2010/Aiogram3
+#wget -O "/home/$proj_user/Scripts/1_start.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
+#    echo "PROJECT_USER='$proj_user'" | sudo tee -a /etc/environment
+#    echo "=== Пользователь '$proj_user' ==="
+
 

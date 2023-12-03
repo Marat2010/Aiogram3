@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Ind Nginx: Страница ind.html </title>
+</head>
+<body>
+    <h2>Ind Nginx: Страница ind.html </h2>
+    <h4>Расположен /var/www/ind </h4>
+    <h4>(не корневая папка /var/www/html) </h4>
+    <hr>
+    <h4>Файл конфигурации /etc/nginx/sites-available/sv.conf</h4>
+    <pre>
+        <code>
+            server {
+                listen 443 ssl;
+                listen [::]:443 ssl default_server;
+
+                ssl_certificate       /etc/ssl/nginx/Bot_IP.crt;
+                ssl_certificate_key   /etc/ssl/nginx/Bot_IP.key;
+
+                server_name localhost 127.0.0.1;
+
+                root /var/www/html;
+
+                location / {
+                }
+
+                location /ind/ {
+                    root /var/www;
+                    index ind.html;
+                }
+
+            }
+        </code>
+    </pre>
+    <hr>
+</body>
+</html>

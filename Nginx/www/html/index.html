@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Nginx: Мой текущий сайт</title>
+</head>
+<body>
+    <h1> Nginx: Мой текущий сайт </h1>
+    <h3> Расположен в корне /var/www/html </h3>
+    <hr>
+    <h4>Файл конфигурации /etc/nginx/sites-available/sv.conf</h4>
+    <pre>
+        <code>
+            server {
+                listen 443 ssl;
+                listen [::]:443 ssl default_server;
+
+                ssl_certificate       /etc/ssl/nginx/Bot_IP.crt;
+                ssl_certificate_key   /etc/ssl/nginx/Bot_IP.key;
+
+                server_name localhost 127.0.0.1;
+
+                root /var/www/html;
+
+                location / {
+                }
+
+                location /ind/ {
+                    root /var/www;
+                    index ind.html;
+                }
+
+            }
+        </code>
+    </pre>
+    <hr>
+</body>
+</html>
