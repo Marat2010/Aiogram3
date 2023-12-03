@@ -14,6 +14,6 @@
 
 ....
 
-**Полное описание на [хабре](http://habr.ru).**  
+**Полное описание на <a href="http://habr.ru" target="_blank">хабре</a>.**  
 Видео на [youtube](http://youtube.com).  
 Проверяю телеграмма бота здесь: [@RuPyBot](https://t.me/RuPytBot).  

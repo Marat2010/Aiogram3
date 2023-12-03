@@ -1,22 +1,17 @@
 [Unit]
 Description=Aiogram3 bot service
-;After=multi-user.target
-After=network.target
+After=multi-user.target
  
 [Service]
 User=root
 Group=root
-;Type=simple
-;Restart=always
 Type=idle
 Restart=on-failure
 
-ExecStart=/bin/bash -c 'cd /home/$USER/$PROJECT_NAME/ && source venv/bin/activate && python main.py'
+EnvironmentFile=/etc/environment
 
-;ExecStart=/usr/bin/python3 /var/www/html/bot/serv_aio.py
-;ExecStart=/usr/bin/python3 /home/marat/PycharmProjects/rupyt.online/serv_aio.py
- 
+ExecStart=/bin/bash -c 'cd /home/$RUN_USER/$PROJECT_NAME/ && source venv/bin/activate && python main.py'
+
 [Install]
 WantedBy=multi-user.target
 
-;Alias=aiogram3Bot.service

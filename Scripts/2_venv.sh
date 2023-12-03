@@ -46,6 +46,7 @@ echo "=== Установка переменных окружения ==="
 echo
 read -p "=== Введите токен телеграмм бота: " bot_token
 echo "BOT_TOKEN='$bot_token'" | sudo tee -a /etc/environment
+echo "RUN_USER='$USER'" | sudo tee -a /etc/environment
 
 echo
 echo "=== Подготовка SSL сертификата ===" 
@@ -62,9 +63,10 @@ echo
 echo "=== Запуск сервиса (SYSTEMD) бота ===" 
 echo
 sudo cp /home/$USER/$proj_name/Service/Aiogram3_bot.service /lib/systemd/system/Aiogram3_bot.service
-sudo ln -s /lib/systemd/system/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
+#sudo ln -s /lib/systemd/system/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
 sudo systemctl daemon-reload
 sudo systemctl enable Aiogram3_bot.service
+sudo systemctl start Aiogram3_bot.service
 
 
 #===============================
