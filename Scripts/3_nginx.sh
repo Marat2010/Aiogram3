@@ -14,28 +14,20 @@ sudo cp ~/$PROJECT_NAME/Nginx/nginx_bot.conf /etc/nginx/sites-available/
 sudo cp ~/$PROJECT_NAME/Nginx/sv.conf /etc/nginx/sites-available/
 
 echo
-echo "=== Подготовка SSL сертификата ===" 
-echo
-read -p "=== Введите имя домена или IP адрес: " domain_name
-echo "=== Установка переменных окружения ===" 
-echo "DOMAIN_NAME='$domain_name'" | sudo tee -a /etc/environment
-
-sudo mkcert -install $domain_name
-sudo mkdir /etc/ssl/nginx
-sudo mv  $domain_name-key.pem /etc/ssl/nginx/$domain_name.key
-sudo mv  $domain_name.pem /etc/ssl/nginx/$domain_name.crt
-mkdir ~/$PROJECT_NAME/SSL
-sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
-sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
-
-echo
 echo "=== Копирование примеров страниц сайта ===" 
 sudo cp -R ~/$PROJECT_NAME/Nginx/www/* /var/www/
 
 echo
 echo "=== Перезапуск Nginx ==="
+sudo ln -s /etc/nginx/sites-available/nginx_bot.conf /etc/nginx/sites-enabled/nginx_bot
+sudo ln -s /etc/nginx/sites-available/sv.conf /etc/nginx/sites-enabled/sv
+sudo systemctl daemon-reload
 sudo systemctl restart nginx
 
+echo
+echo "=== Открытие доступа для веб в папку проекта /home/... ==="
+echo "=== Добавления пользователя www-data в группу пользователя проекта ==="
+sudo usermod -aG $PROJECT_USER www-data 
 
 
 

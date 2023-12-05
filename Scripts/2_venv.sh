@@ -43,9 +43,22 @@ pip freeze > requirements.txt
 echo
 read -p "=== Введите токен телеграмм бота: " bot_token
 echo
+read -p "=== Введите имя домена или IP адрес: " domain_name
+echo
 echo "=== Установка переменных окружения ===" 
 echo "BOT_TOKEN='$bot_token'" | sudo tee -a /etc/environment
+echo "DOMAIN_NAME='$domain_name'" | sudo tee -a /etc/environment
 echo "PROJECT_NAME='$proj_name'" | sudo tee -a /etc/environment
+
+echo
+echo "=== Подготовка SSL сертификата ===" 
+sudo mkcert -install $domain_name
+sudo mkdir /etc/ssl/nginx
+sudo mv $domain_name-key.pem /etc/ssl/nginx/$domain_name.key
+sudo mv $domain_name.pem /etc/ssl/nginx/$domain_name.crt
+mkdir ~/$PROJECT_NAME/SSL
+sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
+sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
 
 echo
 echo "=== Запуск сервиса (SYSTEMD) бота ===" 

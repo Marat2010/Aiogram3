@@ -16,8 +16,8 @@ from aiogram.utils.markdown import hbold
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
 # ============ .env ===================
-#from decouple import AutoConfig
-#config = AutoConfig()
+# from decouple import AutoConfig
+# config = AutoConfig()
 #TOKEN = config('BOT_TOKEN')
 # =====================================
 
@@ -37,6 +37,7 @@ WEBHOOK_PATH = "/" + getenv("PROJECT_NAME")
 
 # Secret key to validate requests from Telegram (optional)
 WEBHOOK_SECRET = "my-secret"
+
 # Base URL for webhook will be used to generate webhook URL for Telegram,
 # in this example it is used public DNS with HTTPS support
 # BASE_WEBHOOK_URL = "https://aiogram.dev/"
@@ -81,7 +82,7 @@ async def on_startup(bot: Bot) -> None:
     # If you have a self-signed SSL certificate, then you will need to send a public
     # certificate to Telegram
     # await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}",)
-    await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET)
+    await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET, certificate="89.104.66.141.pem")
 
 
 def main() -> None:
