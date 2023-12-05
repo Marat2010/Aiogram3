@@ -10,27 +10,34 @@
 1. Подключаемся к серверу `ssh root@xxx.xxx.xxx.xxx` .  
 
 2. Скачиваем первый скрипт:  
-    `#` ```wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh```  
+    ```
+    wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
+    ```
 
 3. Делаем скрипт исполняемым:  
-    `#`   
-   ```  
+   ```
    chmod +x 1_start.sh
     ```
 
 4. Запускаем скрипт:  
-    `#` ```./1_start.sh```  
+    ```
+    ./1_start.sh
+    ```
     - Установка пакетов: vsftpd, mc, 
     - Создание пользователя для проекта.
     - Копирование скриптов в каталог пользователя
     - Смена пароля root-а
 
 5. Заходим под созданным пользователем:  
-    `#` ```su 'project_user'```  
-    `$` ```cd ~```  
+    ```
+    # su 'project_user'
+    ```
+    ```$ cd ~```
 
 6. Запускаем второй скрипт:  
-    `$` ```Scripts/2_venv.sh```
+    ```
+    Scripts/2_venv.sh
+    ```
     - Установка пакетов: python3-venv, mkcert
     - Создание проекта
     - Установка и активация вирт. окружения
@@ -44,8 +51,8 @@
 7. Запускаем третий скрипт:  
 
     ```
-    $ Scripts/3_nginx.sh
-    ```  
+    Scripts/3_nginx.sh
+    ```
     - Установка пакета Nginx
     - Настройка Nginx, подготовка SSL сертификата для домена (IP)
     - Копирование примеров страниц сайта

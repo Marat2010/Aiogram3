@@ -14,7 +14,7 @@ sudo cp ~/$PROJECT_NAME/Nginx/nginx_bot.conf /etc/nginx/sites-available/
 sudo cp ~/$PROJECT_NAME/Nginx/sv.conf /etc/nginx/sites-available/
 sudo ln -s /etc/nginx/sites-available/nginx_bot.conf /etc/nginx/sites-enabled/nginx_bot
 sudo ln -s /etc/nginx/sites-available/sv.conf /etc/nginx/sites-enabled/sv
-sudo rm -f /nginx/sites-enabled/default
+sudo rm -f /etc/nginx/sites-enabled/default
 
 echo
 echo "=== Копирование примеров страниц сайта ===" 
