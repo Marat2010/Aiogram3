@@ -82,7 +82,7 @@ async def on_startup(bot: Bot) -> None:
     # If you have a self-signed SSL certificate, then you will need to send a public
     # certificate to Telegram
     # await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}",)
-    await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET, certificate="89.104.66.141.pem")
+    await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET)
 
 
 def main() -> None:
