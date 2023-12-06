@@ -2,14 +2,13 @@
 
 echo "
 server {
-    listen 4431 ssl;
-    listen [::]:4431 ssl;
+    listen 8443 ssl;
+    listen [::]:8443 ssl;
 
     ssl_certificate       /etc/ssl/nginx/$DOMAIN_NAME.crt;
     ssl_certificate_key   /etc/ssl/nginx/$DOMAIN_NAME.key;
 
     server_name $DOMAIN_NAME;
-#    server_name localhost;
 
     root /var/www/html;
 
@@ -25,6 +24,5 @@ server {
     }
 
 }
-" > nginx_bot.conf
-# > ~/$PROJECT_NAME/Nginx/nginx_bot.conf
+" > ~/$PROJECT_NAME/Nginx/nginx_bot.conf
 

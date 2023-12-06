@@ -21,6 +21,5 @@ server {
     }
 
 }
-" > sv.conf
-# > ~/$PROJECT_NAME/Nginx/sv.conf
+"> ~/$PROJECT_NAME/Nginx/sv.conf
 

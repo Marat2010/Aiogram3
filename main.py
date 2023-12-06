@@ -43,7 +43,7 @@ WEBHOOK_SECRET = "my-secret"
 # BASE_WEBHOOK_URL = "https://aiogram.dev/"
 # BASE_WEBHOOK_URL = "https://8a7c-178-205-151-66.ngrok-free.app"
 # BASE_WEBHOOK_URL = config("DOMAIN_NAME")
-BASE_WEBHOOK_URL = getenv("DOMAIN_NAME")
+BASE_WEBHOOK_URL = getenv("DOMAIN_NAME") + ":8443"
 
 
 # All handlers should be attached to the Router (or Dispatcher)

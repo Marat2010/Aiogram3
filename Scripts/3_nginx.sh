@@ -10,6 +10,7 @@ sudo systemctl enable nginx
 
 echo
 echo "=== Настройка Nginx ==="
+chmod +x ~/$PROJECT_NAME/Nginx/*
 ~/$PROJECT_NAME/Nginx/nginx_bot_conf.sh
 ~/$PROJECT_NAME/Nginx/sv_conf.sh
 
@@ -18,7 +19,7 @@ sudo cp ~/$PROJECT_NAME/Nginx/sv.conf /etc/nginx/sites-available/
 
 sudo ln -s /etc/nginx/sites-available/nginx_bot.conf /etc/nginx/sites-enabled/nginx_bot
 sudo ln -s /etc/nginx/sites-available/sv.conf /etc/nginx/sites-enabled/sv
-sudo rm -f /etc/nginx/sites-enabled/default
+#sudo rm -f /etc/nginx/sites-enabled/default
 
 echo
 echo "=== Копирование примеров страниц сайта ===" 
