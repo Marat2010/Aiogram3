@@ -1,3 +1,6 @@
+#!/bin/bash
+
+echo "
 server {
     listen 443 ssl;
     listen [::]:443 ssl default_server;
@@ -18,3 +21,6 @@ server {
     }
 
 }
+" > sv.conf
+# > ~/$PROJECT_NAME/Nginx/sv.conf
+

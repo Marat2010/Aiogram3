@@ -1,3 +1,6 @@
+#!/bin/bash
+
+echo "
 server {
     listen 4431 ssl;
     listen [::]:4431 ssl;
@@ -22,3 +25,6 @@ server {
     }
 
 }
+" > nginx_bot.conf
+# > ~/$PROJECT_NAME/Nginx/nginx_bot.conf
+
