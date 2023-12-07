@@ -21,14 +21,14 @@ sudo ln -s /etc/nginx/sites-available/nginx_bot.conf /etc/nginx/sites-enabled/ng
 sudo ln -s /etc/nginx/sites-available/sv.conf /etc/nginx/sites-enabled/sv
 #sudo rm -f /etc/nginx/sites-enabled/default
 
-# ---- iframe для html страниц, для показа конфигурации Nginx --------
-sudo ln -s /etc/nginx/sites-available/nginx_bot.conf ~/$PROJECT_NAME/html_for_bot/nginx_bot.txt
-sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/html/sv_conf.txt
-sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
-
 echo
 echo "=== Копирование примеров страниц сайта ===" 
 sudo cp -R ~/$PROJECT_NAME/Nginx/www/* /var/www/
+
+# ---- iframe для html страниц, для показа конфигурации Nginx --------
+sudo ln -s /etc/nginx/sites-available/nginx_bot.conf ~/$PROJECT_NAME/html_for_bot/nginx_bot_conf.txt
+sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/html/sv_conf.txt
+sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
 
 echo
 echo "=== Открытие доступа для веб в папку проекта /home/... ==="

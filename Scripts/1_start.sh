@@ -5,19 +5,22 @@
 
 sudo chmod +x 1_start.sh
 
-# ---- Установка FTP сервера --------
+# ---- Установка пакетов --------
 
 sudo apt update
 echo
 echo "=== Установка FTP сервера ==="
 sudo apt -y install vsftpd
 sudo systemctl enable vsftpd
-
-# ---- Установка Midnight Commander --------
-
 echo
 echo "=== Установка Midnight Commander ==="
 sudo apt -y install mc
+echo
+echo "=== Установка модуля VENV (python3-venv) ==="
+sudo apt -y install python3-venv
+echo
+echo "=== Установка пакета mkcert (SSL) ==="
+sudo apt -y install mkcert
 
 # ---- Настройка FTP сервера --------
 

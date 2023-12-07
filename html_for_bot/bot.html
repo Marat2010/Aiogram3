@@ -5,15 +5,16 @@
     <title>Bot Aio3</title>
 </head>
 <body>
-    <h3><u>Страница Bot-a на Aiogram3 (bot.html) в домашней папке /home/... </u></h3>
-    <h4>Для доступа Nginx к вашей домашней папке /home/... </h4>
-    <h4>Необходимо пользователя www-data добавить в группу своего пользователя: </h4>
+    <h3><u>Страница Bot-a на Aiogram3 (bot.html) в домашней папке /home/$PROJECT_USER/$PROJECT_NAME/html_for_bot </u></h3>
+    <h4>Для доступа Nginx к вашей домашней папке /home/... ,
+     Необходимо пользователя www-data добавить в группу своего пользователя проекта: 
+    </h4>
     <h4><i> sudo usermod -aG marat www-data  </i></h4>
     <hr>
     <h4>Файл конфигурации /etc/nginx/sites-available/nginx_bot.conf</h4>
     <pre>
         <code>
-            <iframe src="nginx_bot_conf.txt" height="600" width="600" style="border:2px solid blue;"></iframe>
+            <iframe src="nginx_bot_conf.txt" height="430" width="600" style="border:2px solid blue;"></iframe>
         </code>
     </pre>
     <hr>

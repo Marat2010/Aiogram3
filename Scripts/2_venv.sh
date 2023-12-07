@@ -2,15 +2,6 @@
 
 # --- Выполнять под пользователем проекта (не root) ---
 
-sudo apt update
-echo
-echo "=== Установка модуля VENV ==="
-sudo apt -y install python3-venv
-
-echo
-echo "=== Установка пакета mkcert (SSL) ==="
-sudo apt -y install mkcert
-
 echo 
 read -p "=== Введите название проекта (папки): " proj_name
 mkdir ~/$proj_name
