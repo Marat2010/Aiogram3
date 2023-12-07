@@ -12,15 +12,19 @@ server {
 
     root /var/www/html;
 
+    location /html_for_bot {
+        root /home/$PROJECT_USER/$PROJECT_NAME;
+        index bot.html;
+    }
+
     location /$PROJECT_NAME {
         root /home/$PROJECT_USER;
-        index bot.html;
 
-#        proxy_set_header Host $http_host;
-#        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-#        proxy_redirect off;
-#        proxy_buffering off;
-#        proxy_pass http://127.0.0.1:8080;
+        proxy_set_header Host \$http_host;
+        proxy_set_header X-Forwarded-For \$proxy_add_x_forwarded_for;
+        proxy_redirect off;
+        proxy_buffering off;
+        proxy_pass http://127.0.0.1:8080;
     }
 
 }

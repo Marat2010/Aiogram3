@@ -29,6 +29,7 @@ echo "=== Копирование файлов ==="
 sudo cp -R /root/Aiogram3/Scripts ./
 sudo cp -R /root/Aiogram3/Service ./
 sudo cp -R /root/Aiogram3/Nginx ./
+sudo cp -R /root/Aiogram3/html_for_bot ./
 sudo cp /root/Aiogram3/main.py ./
 sudo cp /root/Aiogram3/bot.html ./
 sudo chown -R $USER:$USER ./
