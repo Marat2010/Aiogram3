@@ -26,14 +26,12 @@ echo "=== Копирование примеров страниц сайта ==="
 sudo cp -R ~/$PROJECT_NAME/Nginx/www/* /var/www/
 
 echo
-echo "=== Перезапуск Nginx ==="
-sudo systemctl daemon-reload
-sudo systemctl restart nginx
-
-echo
 echo "=== Открытие доступа для веб в папку проекта /home/... ==="
 echo "(добавления пользователя 'www-data' в группу пользователя проекта '$PROJECT_USER')"
 sudo usermod -aG $PROJECT_USER www-data 
 
-
+echo
+echo "=== Перезапуск Nginx ==="
+sudo systemctl daemon-reload
+sudo systemctl restart nginx.service
 

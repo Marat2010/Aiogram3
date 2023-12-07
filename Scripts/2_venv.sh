@@ -71,6 +71,10 @@ sudo systemctl start Aiogram3_bot.service
 
 
 #============================================
+#yes '' | command_or_script
+
+#============================================
+
 #wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/main.py
 #wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/requirements.txt
 #-----------------------------

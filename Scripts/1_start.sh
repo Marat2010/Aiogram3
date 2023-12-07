@@ -47,7 +47,7 @@ echo "" >> /etc/vsftpd.conf
 
 echo
 echo "=== Формирование SSL-сертификата для FTP ==="
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem
+sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=1/emailAddress=em"
 
 echo "rsa_cert_file=/etc/ssl/private/vsftpd.pem" >> /etc/vsftpd.conf
 echo "rsa_private_key_file=/etc/ssl/private/vsftpd.pem" >> /etc/vsftpd.conf
@@ -80,12 +80,12 @@ echo
 echo "=== Копирование скриптов в каталог пользователя $proj_user ==="
 
 git clone https://github.com/Marat2010/Aiogram3
-cp Aiogram3/Scripts/.config ~/
+cp -R Aiogram3/Scripts/.config ~/
 
 cp -R Aiogram3/Scripts /home/$proj_user/
 sudo chown -R $proj_user:$proj_user "/home/$proj_user/Scripts"
 chmod +x -R "/home/$proj_user/Scripts"
-cp /home/$proj_user/Scripts/.config /home/$proj_user/
+cp -R /home/$proj_user/Scripts/.config /home/$proj_user/
 
 # ---- Смена пароля root-а --------
 
