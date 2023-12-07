@@ -13,29 +13,7 @@
     <h4>Файл конфигурации /etc/nginx/sites-available/nginx_bot.conf</h4>
     <pre>
         <code>
-            server {
-                listen 4431 ssl;
-                listen [::]:4431 ssl;
-
-                ssl_certificate       /etc/ssl/nginx/Bot_IP.crt;
-                ssl_certificate_key   /etc/ssl/nginx/Bot_IP.key;
-
-                server_name localhost;
-            #    server_name localhost1;
-
-            #    root /var/www/html;
-
-                location /Aiogram3 {
-                    root /home/marat/PycharmProjects;
-                    index bot.html;
-
-            #        proxy_set_header Host $http_host;
-            #        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-            #        proxy_redirect off;
-            #        proxy_buffering off;
-            #        proxy_pass http://127.0.0.1:8080;
-                }
-            }
+            <iframe src="nginx_bot_conf.txt" height="600" width="600" style="border:2px solid blue;"></iframe>
         </code>
     </pre>
     <hr>

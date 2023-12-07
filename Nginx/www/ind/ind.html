@@ -12,26 +12,7 @@
     <h4>Файл конфигурации /etc/nginx/sites-available/sv.conf</h4>
     <pre>
         <code>
-            server {
-                listen 443 ssl;
-                listen [::]:443 ssl default_server;
-
-                ssl_certificate       /etc/ssl/nginx/Bot_IP.crt;
-                ssl_certificate_key   /etc/ssl/nginx/Bot_IP.key;
-
-                server_name localhost 127.0.0.1;
-
-                root /var/www/html;
-
-                location / {
-                }
-
-                location /ind/ {
-                    root /var/www;
-                    index ind.html;
-                }
-
-            }
+            <iframe src="sv_conf.txt" height="400" width="600" style="border:2px solid blue;"></iframe>
         </code>
     </pre>
     <hr>

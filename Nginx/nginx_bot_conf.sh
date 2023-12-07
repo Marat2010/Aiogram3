@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo "
-server {
+echo "server {
     listen 8443 ssl;
     listen [::]:8443 ssl;
 
@@ -10,7 +9,7 @@ server {
 
     server_name $DOMAIN_NAME;
 
-    root /var/www/html;
+    root /home/$PROJECT_USER/$PROJECT_NAME;
 
     location /html_for_bot {
         root /home/$PROJECT_USER/$PROJECT_NAME;
@@ -26,7 +25,6 @@ server {
         proxy_buffering off;
         proxy_pass http://127.0.0.1:8080;
     }
-
 }
 " > ~/$PROJECT_NAME/Nginx/nginx_bot.conf
 

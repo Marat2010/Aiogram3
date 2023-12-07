@@ -1,7 +1,6 @@
 #!/bin/bash
 
-echo "
-server {
+echo "server {
     listen 443 ssl;
     listen [::]:443 ssl default_server;
 
@@ -13,13 +12,13 @@ server {
     root /var/www/html;
 
     location / {
+        root /var/www/html;
     }
 
-    location /ind/ {
+    location /ind {
         root /var/www;
         index ind.html;
     }
-
 }
 "> ~/$PROJECT_NAME/Nginx/sv.conf
 
