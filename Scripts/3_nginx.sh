@@ -25,15 +25,15 @@ echo
 echo "=== Копирование примеров страниц сайта ===" 
 sudo cp -R ~/$PROJECT_NAME/Nginx/www/* /var/www/
 
-# ---- iframe для html страниц, для показа конфигурации Nginx --------
-sudo ln -s /etc/nginx/sites-available/nginx_bot.conf ~/$PROJECT_NAME/html_for_bot/nginx_bot_conf.txt
-sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/html/sv_conf.txt
-sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
-
 echo
 echo "=== Открытие доступа для веб в папку проекта /home/... ==="
 echo "(добавления пользователя 'www-data' в группу пользователя проекта '$PROJECT_USER')"
 sudo usermod -aG $PROJECT_USER www-data 
+
+# ---- iframe для html страниц, для показа конфигурации Nginx --------
+sudo ln -s /etc/nginx/sites-available/nginx_bot.conf ~/$PROJECT_NAME/html_for_bot/nginx_bot_conf.txt
+sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/html/sv_conf.txt
+sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
 
 echo
 echo "=== Перезапуск Nginx ==="
