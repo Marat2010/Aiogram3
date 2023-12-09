@@ -19,8 +19,8 @@ echo
 echo "=== Установка модуля VENV (python3-venv) ==="
 sudo apt -y install python3-venv
 echo
-echo "=== Установка пакета mkcert (SSL) ==="
-sudo apt -y install mkcert
+#echo "=== Установка пакета mkcert (SSL) ==="
+#sudo apt -y install mkcert
 
 # ---- Настройка FTP сервера --------
 

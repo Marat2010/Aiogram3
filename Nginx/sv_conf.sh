@@ -12,10 +12,9 @@ echo "server {
     root /var/www/html;
 
     location / {
-        root /var/www/html;
     }
 
-    location /ind {
+    location /ind/ {
         root /var/www;
         index ind.html;
     }

@@ -9,7 +9,7 @@ echo "server {
 
     server_name $DOMAIN_NAME;
 
-    root /home/$PROJECT_USER/$PROJECT_NAME;
+    root /var/www/html;
 
     location /html_for_bot {
         root /home/$PROJECT_USER/$PROJECT_NAME;
