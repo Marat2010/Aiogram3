@@ -69,7 +69,7 @@ echo "PROJECT_USER='$proj_user'" | sudo tee -a /etc/environment
 
 if [ ! -z $proj_user ]
 then
-    sudo adduser $proj_user
+    sudo adduser --gecos "" $proj_user
     sudo usermod -aG sudo $proj_user
     echo "=== Пользователь '$proj_user' в группе 'sudo' ==="
 

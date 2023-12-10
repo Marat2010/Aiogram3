@@ -36,7 +36,15 @@ sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/html/sv_conf.txt
 sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
 
 echo
+echo "=== Установка acme.sh (SSL сертификат домена) ===" 
+echo
+read -p "=== Введите адрес электронной почты, используемый для регистрации учетной записи на https://zerossl.com/: " email_zerossl
+echo "EMAIL_ZEROSSL='$email_zerossl'" | sudo tee -a /etc/environment
+wget -O -  https://get.acme.sh | sh -s email=$email_zerossl
+
+echo
 echo "=== Перезапуск Nginx ==="
 sudo systemctl daemon-reload
 sudo systemctl restart nginx.service
 
+echo "=== Необходимо перезайти: $ exit, # su 'PROJECT_USER', $ cd ~ ==="

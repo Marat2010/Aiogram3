@@ -43,8 +43,9 @@ WEBHOOK_SECRET = "my-secret"
 # BASE_WEBHOOK_URL = "https://aiogram.dev/"
 # BASE_WEBHOOK_URL = "https://8a7c-178-205-151-66.ngrok-free.app"
 # BASE_WEBHOOK_URL = config("DOMAIN_NAME")
+#BASE_WEBHOOK_URL = "https://ub22.z2024.site:8443"
 #BASE_WEBHOOK_URL = getenv("DOMAIN_NAME") + ":8443"
-BASE_WEBHOOK_URL = "https://ub22.z2024.site:8443"
+BASE_WEBHOOK_URL = "https://" + getenv("DOMAIN_NAME") + ":8443"
 
 
 # All handlers should be attached to the Router (or Dispatcher)
@@ -86,6 +87,18 @@ async def on_startup(bot: Bot) -> None:
     await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET)
 
 
+async def on_shutdown(bot: Bot) -> None:
+    """
+    Graceful shutdown. This method is recommended by aiohttp docs.
+    """
+    # Remove webhook.
+    await bot.delete_webhook()
+
+    # Close Redis connection.
+    # await dp.storage.close()
+    # await dp.storage.wait_closed()
+
+
 def main() -> None:
     # Dispatcher is a root router
     dp = Dispatcher()
@@ -114,6 +127,9 @@ def main() -> None:
 
     # Mount dispatcher startup and shutdown hooks to aiohttp application
     setup_application(app, dp, bot=bot)
+
+    dp.shutdown.register(on_shutdown)
+    # app.on_shutdown.append(on_shutdown)
 
     # And finally start webserver
     web.run_app(app, host=WEB_SERVER_HOST, port=WEB_SERVER_PORT)
