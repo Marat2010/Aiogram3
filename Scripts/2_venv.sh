@@ -41,15 +41,15 @@ echo "BOT_TOKEN='$bot_token'" | sudo tee -a /etc/environment
 echo "DOMAIN_NAME='$domain_name'" | sudo tee -a /etc/environment
 echo "PROJECT_NAME='$proj_name'" | sudo tee -a /etc/environment
 
-#echo
-#echo "=== Подготовка SSL сертификата для Домена ===" 
-#sudo mkcert -install $domain_name
-#sudo mkdir /etc/ssl/nginx
-#sudo mv $domain_name-key.pem /etc/ssl/nginx/$domain_name.key
-#sudo mv $domain_name.pem /etc/ssl/nginx/$domain_name.crt
-#mkdir ~/$PROJECT_NAME/SSL
-#sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
-#sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
+echo
+echo "=== Подготовка самоподписанного SSL сертификата для Nginx ===" 
+openssl req -newkey rsa:2048 -sha256 -nodes -keyout $domain_name.key -x509 -days 365 -out $domain_name.crt -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=$domain_name"
+sudo mkdir /etc/ssl/nginx
+sudo mv $domain_name.key /etc/ssl/nginx/$domain_name.key
+sudo mv $domain_name.crt /etc/ssl/nginx/$domain_name.crt
+mkdir ~/$PROJECT_NAME/SSL
+sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
+sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
 
 echo
 echo "=== Запуск сервиса (SYSTEMD) бота ===" 
@@ -72,4 +72,14 @@ sudo systemctl start Aiogram3_bot.service
 #sudo ln -s /lib/systemd/system/Aiogram3_bot.service /etc/systemd/system/Aiogram3_bot.service
 #. /etc/environment
 #source /etc/environment
+#---------------------------
+#echo
+#echo "=== Подготовка SSL сертификата для Домена ===" 
+#sudo mkcert -install $domain_name
+#sudo mkdir /etc/ssl/nginx
+#sudo mv $domain_name-key.pem /etc/ssl/nginx/$domain_name.key
+#sudo mv $domain_name.pem /etc/ssl/nginx/$domain_name.crt
+#mkdir ~/$PROJECT_NAME/SSL
+#sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
+#sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
 

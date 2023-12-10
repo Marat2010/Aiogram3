@@ -25,7 +25,7 @@ echo
 # ---- Настройка FTP сервера --------
 
 echo
-echo "=== Настройка FTP сервера ==="
+echo "=== FTP: Настройка сервера ==="
 sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.original
 
 echo "listen=YES" > /etc/vsftpd.conf
@@ -49,7 +49,7 @@ echo "userlist_deny=NO" >> /etc/vsftpd.conf
 echo "" >> /etc/vsftpd.conf
 
 echo
-echo "=== Формирование SSL-сертификата для FTP ==="
+echo "=== FTP: Формирование SSL-сертификата  ==="
 sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=1/emailAddress=em"
 
 echo "rsa_cert_file=/etc/ssl/private/vsftpd.pem" >> /etc/vsftpd.conf
@@ -58,6 +58,11 @@ echo "ssl_enable=YES" >> /etc/vsftpd.conf
 echo "" >> /etc/vsftpd.conf
 
 sudo systemctl restart vsftpd
+
+echo
+echo "=== Отключение dhclient6 ==="
+sudo systemctl stop dhclient6.service
+sudo systemctl disable dhclient6.service
 
 # ---- Добавление и настройка пользователя --------
 

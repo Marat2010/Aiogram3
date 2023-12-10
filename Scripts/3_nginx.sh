@@ -38,6 +38,8 @@ sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
 echo
 echo "=== Установка acme.sh (SSL сертификат домена) ===" 
 echo
+sudo mkdir -p /var/www/html/.well-known/pki-validation
+
 read -p "=== Введите адрес электронной почты, используемый для регистрации учетной записи на https://zerossl.com/: " email_zerossl
 echo "EMAIL_ZEROSSL='$email_zerossl'" | sudo tee -a /etc/environment
 wget -O -  https://get.acme.sh | sh -s email=$email_zerossl
