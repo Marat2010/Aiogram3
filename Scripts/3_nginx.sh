@@ -13,12 +13,15 @@ echo "=== Настройка Nginx ==="
 chmod +x ~/$PROJECT_NAME/Nginx/*
 ~/$PROJECT_NAME/Nginx/nginx_bot_conf.sh
 ~/$PROJECT_NAME/Nginx/sv_conf.sh
+~/$PROJECT_NAME/Nginx/DOMAIN.sh
 
 sudo cp ~/$PROJECT_NAME/Nginx/nginx_bot.conf /etc/nginx/sites-available/
 sudo cp ~/$PROJECT_NAME/Nginx/sv.conf /etc/nginx/sites-available/
+sudo cp ~/$PROJECT_NAME/Nginx/$DOMAIN_NAME.conf /etc/nginx/sites-available/
 
 sudo ln -s /etc/nginx/sites-available/nginx_bot.conf /etc/nginx/sites-enabled/nginx_bot
 sudo ln -s /etc/nginx/sites-available/sv.conf /etc/nginx/sites-enabled/sv
+sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME.conf /etc/nginx/sites-enabled/$DOMAIN_NAME.conf
 #sudo rm -f /etc/nginx/sites-enabled/default
 
 echo
@@ -42,7 +45,7 @@ sudo mkdir -p /var/www/html/.well-known/pki-validation
 
 read -p "=== Введите адрес электронной почты, используемый для регистрации учетной записи на https://zerossl.com/: " email_zerossl
 echo "EMAIL_ZEROSSL='$email_zerossl'" | sudo tee -a /etc/environment
-wget -O -  https://get.acme.sh | sh -s email=$email_zerossl
+#wget -O -  https://get.acme.sh | sh -s email=$email_zerossl
 
 echo
 echo "=== Перезапуск Nginx ==="

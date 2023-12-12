@@ -7,7 +7,7 @@ echo "server {
     ssl_certificate       /etc/ssl/nginx/$DOMAIN_NAME.crt;
     ssl_certificate_key   /etc/ssl/nginx/$DOMAIN_NAME.key;
 
-    server_name localhost 127.0.0.1 $DOMAIN_NAME;
+    server_name $DOMAIN_NAME;
 
     root /var/www/html;
 
