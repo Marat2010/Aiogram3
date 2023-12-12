@@ -52,4 +52,4 @@ echo "=== Перезапуск Nginx ==="
 sudo systemctl daemon-reload
 sudo systemctl restart nginx.service
 
-echo "=== Необходимо перезайти: $ exit, # su 'PROJECT_USER', $ cd ~ ==="
+echo "=== Необходимо перезайти под root-ом: $ exit, # ssh root@xxx.xxx.xxx.xxx ==="

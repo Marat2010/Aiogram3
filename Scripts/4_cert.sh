@@ -1,17 +1,40 @@
 #!/bin/bash
 
-# --- Выполнять под пользователем проекта (не root) ---
+# --- Выполнять под пользователем root ---
 
-echo
+echo "=== Выполнять под пользователем root ==="
 echo "=== Подготовка SSL сертификата для Домена ===" 
-cd ~
-~/.acme.sh/acme.sh  --register-account  -m $EMAIL_ZEROSSL --server zerossl
-
-
 
 # Установить попробовать  https://github.com/kshcherban/acme-nginx
-#~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx -m $EMAIL_ZEROSSL --server zerossl
+cd ~
+git clone https://github.com/kshcherban/acme-nginx
+cd acme-nginx
+python setup.py install
+acme-nginx -d $DOMAIN_NAME
 
+mv /etc/ssl/nginx/$DOMAIN_NAME.crt /etc/ssl/nginx/$DOMAIN_NAME.crt_old
+mv /etc/ssl/nginx/$DOMAIN_NAME.key /etc/ssl/nginx/$DOMAIN_NAME.key_old
+
+ln -s /etc/ssl/private/letsencrypt-domain.pem /etc/ssl/nginx/$DOMAIN_NAME.crt
+ln -s /etc/ssl/private/letsencrypt-domain.key /etc/ssl/nginx/$DOMAIN_NAME.key
+
+#==================================
+echo
+echo "=== Установка диспетчера задач для автоматического обноления SSL сертификата для Домена ===" 
+echo "MAILTO=insider@prolinux.org
+12 11 10 * * root timeout -k 600 -s 9 3600 /usr/local/bin/acme-nginx -d $DOMAIN_NAME >> /var/log/letsencrypt.log 2>&1 || echo Failed to renew certificate" > /etc/cron.d/renew-cert
+crontab -l
+#==================================
+echo
+echo "=== Перезапуск Nginx ==="
+systemctl daemon-reload
+systemctl restart nginx.service
+
+
+#====================================
+
+#~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx -m $EMAIL_ZEROSSL --server zerossl
+#~/.acme.sh/acme.sh  --register-account  -m $EMAIL_ZEROSSL --server zerossl
 #====================================
 #sudo chown -R marat:marat /var/www/html/
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/sv.conf --server zerossl
@@ -25,14 +48,9 @@ cd ~
 #======================================
 #cat certificate.crt ca_bundle.crt >> $DOMAIN_NAME.crt
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/nginx_bot.conf -m $EMAIL_ZEROSSL --server zerossl
-#==================================
-echo
-echo "=== Перезапуск Nginx ==="
-sudo systemctl daemon-reload
-sudo systemctl restart nginx.service
 
+#======================================================
 
-#====================================
 #cat certificate.crt ca_bundle.crt >> certificate.crt
 #http://89.104.69.137/.well-known/pki-validation/C7B53CFFA9F38169AA5203AAE43A0677.txt
 #------------------------------------
