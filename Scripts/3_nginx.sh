@@ -1,6 +1,11 @@
 #!/bin/bash
 
-# --- Выполнять под пользователем проекта (не root) ---
+echo "=== !!! Выполнять под пользователем проекта (не root) !!! ==="
+
+if [[ -z $PROJECT_USER || $USER != $PROJECT_USER ]]; then
+    echo "=== Вы пользователь '$USER', необходимо перезайти под пользователем проекта: '$PROJECT_USER'! ==="
+    exit
+fi
 
 sudo apt update
 echo
@@ -38,18 +43,15 @@ sudo ln -s /etc/nginx/sites-available/nginx_bot.conf ~/$PROJECT_NAME/html_for_bo
 sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/html/sv_conf.txt
 sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
 
-echo
-echo "=== Установка acme.sh (SSL сертификат домена) ===" 
-echo
-sudo mkdir -p /var/www/html/.well-known/pki-validation
-
-read -p "=== Введите адрес электронной почты, используемый для регистрации учетной записи на https://zerossl.com/: " email_zerossl
-echo "EMAIL_ZEROSSL='$email_zerossl'" | sudo tee -a /etc/environment
-#wget -O -  https://get.acme.sh | sh -s email=$email_zerossl
+read -p "=== Введите адрес электронной почты, для получения информации об обновлении сертификатов (для cron-а): " email_ssl
+echo "EMAIL_SSL='$email_ssl'" | sudo tee -a /etc/environment
 
 echo
 echo "=== Перезапуск Nginx ==="
 sudo systemctl daemon-reload
 sudo systemctl restart nginx.service
 
-echo "=== Необходимо перезайти под root-ом: $ exit, # ssh root@xxx.xxx.xxx.xxx ==="
+echo "=== Необходимо перезайти под root-ом: $ exit, $ exit, # ssh root@xxx.xxx.xxx.xxx ==="
+
+#================================
+

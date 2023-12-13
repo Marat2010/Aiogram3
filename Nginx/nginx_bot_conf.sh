@@ -9,10 +9,8 @@ echo "server {
 
     server_name $DOMAIN_NAME;
 
-    root /var/www/html;
-
-    location /html_for_bot {
-        root /home/$PROJECT_USER/$PROJECT_NAME;
+    location / {
+        root /home/$PROJECT_USER/$PROJECT_NAME/html_for_bot;
         index bot.html;
     }
 

@@ -1,18 +1,24 @@
 #!/bin/bash
 
-# --- Выполнять под пользователем root ---
+echo "=== !!! Выполнять под пользователем root !!! ==="
 
-echo "=== Выполнять под пользователем root ==="
-echo "=== Подготовка SSL сертификата для Домена ===" 
+if [ $USER != 'root' ]; then
+    echo "=== Вы пользователь '$USER', необходимо запустить под пользователем: 'root'!"
+    exit
+fi
 
-# Установить попробовать  https://github.com/kshcherban/acme-nginx
+echo
+echo "=== Установка пакета acme-nginx ===" 
 cd ~
 git clone https://github.com/kshcherban/acme-nginx
 cd acme-nginx
 python3 setup.py install
 wait
 
-acme-nginx -d $DOMAIN_NAME
+echo
+echo "=== Установка бесплатных сертификатов SSL (Let's Encrypt) для домена ==="
+mkdir -p /var/www/html/.well-known/pki-validation
+acme-nginx -d $DOMAIN_NAME --debug
 wait
 
 mv /etc/ssl/nginx/$DOMAIN_NAME.crt /etc/ssl/nginx/$DOMAIN_NAME.crt_self_old
@@ -24,18 +30,22 @@ ln -s /etc/ssl/private/letsencrypt-domain.key /etc/ssl/nginx/$DOMAIN_NAME.key
 #==================================
 echo
 echo "=== Установка диспетчера задач для автоматического обноления SSL сертификата для Домена ===" 
-echo "MAILTO=insider@prolinux.org
-12 11 10 * * root timeout -k 600 -s 9 3600 /usr/local/bin/acme-nginx -d $DOMAIN_NAME >> /var/log/letsencrypt.log 2>&1 || echo Failed to renew certificate" > /etc/cron.d/renew-cert
-crontab -l
+
+echo "MAILTO=$EMAIL_SSL
+`date +'%M'` `date +'%H'` `date +'%d'` * * root timeout -k 600 -s 9 3600 /usr/local/bin/acme-nginx -d $DOMAIN_NAME >> /var/log/letsencrypt.log 2>&1 || echo Failed to renew certificate" > /etc/cron.d/renew-cert
+
+cat /etc/cron.d/renew-cert
 #==================================
 echo
 echo "=== Перезапуск Nginx ==="
 systemctl daemon-reload
 systemctl restart nginx.service
-
+echo
+echo "=== НАСТРОЙКА ЗАВЕРШЕНА! ==="
+echo "=== Проверка по адресу: https://$DOMAIN_NAME:8443/ ==="
+echo "=== Адрес WEBHOOK_URL: https://$DOMAIN_NAME:8443/$PROJECT_NAME ==="
 
 #====================================
-
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx -m $EMAIL_ZEROSSL --server zerossl
 #~/.acme.sh/acme.sh  --register-account  -m $EMAIL_ZEROSSL --server zerossl
 #====================================
@@ -51,30 +61,14 @@ systemctl restart nginx.service
 #======================================
 #cat certificate.crt ca_bundle.crt >> $DOMAIN_NAME.crt
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/nginx_bot.conf -m $EMAIL_ZEROSSL --server zerossl
-
 #======================================================
 
 #cat certificate.crt ca_bundle.crt >> certificate.crt
 #http://89.104.69.137/.well-known/pki-validation/C7B53CFFA9F38169AA5203AAE43A0677.txt
-#------------------------------------
+
+#======================================
 
 #wget -O -  https://get.acme.sh | sh -s email=$EMAIL_ZEROSSL
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/nginx_bot.conf -m $EMAIL_ZEROSSL --server zerossl
 
-# /etc/nginx/conf.d/example.com.conf
-# /etc/nginx/nginx.conf
-# /etc/nginx/sites-available/nginx_bot.conf
-# /etc/nginx/sites-available/sv.conf
-#-----------------------
-#echo
-#echo "=== Подготовка SSL сертификата для Домена ===" 
-#sudo mkcert -install $domain_name
-#sudo mkdir /etc/ssl/nginx
-#sudo mv $domain_name-key.pem /etc/ssl/nginx/$domain_name.key
-#sudo mv $domain_name.pem /etc/ssl/nginx/$domain_name.crt
-#mkdir ~/$PROJECT_NAME/SSL
-#sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
 
-#sudo mkdir /etc/ssl/nginx
-#sudo cp ~/$PROJECT_NAME/SSL/fullchain.pem /etc/ssl/nginx/$DOMAIN_NAME.crt
-#sudo cp ~/$PROJECT_NAME/SSL/privkey.pem /etc/ssl/nginx/$DOMAIN_NAME.key

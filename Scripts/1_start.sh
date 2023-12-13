@@ -1,32 +1,30 @@
 #!/bin/bash
 
-# ---- Взято с инструкции по запуску FTP сервера здесь: --------
-# https://help.reg.ru/support/servery-vps/oblachnyye-servery/ustanovka-programmnogo-obespecheniya/kak-ustanovit-ftp-server-na-ubuntu
+echo "=== !!! Выполнять под пользователем root !!! ==="
 
-sudo chmod +x 1_start.sh
+if [ $USER != 'root' ]; then
+    echo "=== Вы пользователь '$USER', необходимо запустить под пользователем: 'root'!"
+    exit
+fi
 
 # ---- Установка пакетов --------
 
-sudo apt update
+apt update
 echo
 echo "=== Установка FTP сервера ==="
-sudo apt -y install vsftpd
-sudo systemctl enable vsftpd
+echo "=== Инструкция: https://help.reg.ru/support/servery-vps/oblachnyye-servery/ustanovka-programmnogo-obespecheniya/kak-ustanovit-ftp-server-na-ubuntu ==="
+apt -y install vsftpd
+systemctl enable vsftpd
 echo
 echo "=== Установка Midnight Commander ==="
-sudo apt -y install mc
+apt -y install mc
 echo
 echo "=== Установка модуля VENV (python3-venv) ==="
-sudo apt -y install python3-venv
-echo
-#echo "=== Установка пакета mkcert (SSL) ==="
-#sudo apt -y install mkcert
-
-# ---- Настройка FTP сервера --------
+apt -y install python3-venv
 
 echo
 echo "=== FTP: Настройка сервера ==="
-sudo cp /etc/vsftpd.conf /etc/vsftpd.conf.original
+cp /etc/vsftpd.conf /etc/vsftpd.conf.original
 
 echo "listen=YES" > /etc/vsftpd.conf
 echo "listen_ipv6=NO" >> /etc/vsftpd.conf
@@ -50,39 +48,37 @@ echo "" >> /etc/vsftpd.conf
 
 echo
 echo "=== FTP: Формирование SSL-сертификата  ==="
-sudo openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=1/emailAddress=em"
+openssl req -x509 -nodes -days 365 -newkey rsa:2048 -keyout /etc/ssl/private/vsftpd.pem -out /etc/ssl/private/vsftpd.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=1/emailAddress=em"
 
 echo "rsa_cert_file=/etc/ssl/private/vsftpd.pem" >> /etc/vsftpd.conf
 echo "rsa_private_key_file=/etc/ssl/private/vsftpd.pem" >> /etc/vsftpd.conf
 echo "ssl_enable=YES" >> /etc/vsftpd.conf
 echo "" >> /etc/vsftpd.conf
 
-sudo systemctl restart vsftpd
+systemctl restart vsftpd
 
 echo
 echo "=== Отключение dhclient6 ==="
-sudo systemctl stop dhclient6.service
-sudo systemctl disable dhclient6.service
+systemctl stop dhclient6.service
+systemctl disable dhclient6.service
 
 # ---- Добавление и настройка пользователя --------
 
 echo
 read -p "=== Введите имя пользователя для проекта: " proj_user
-echo
-echo "=== Установка переменных окружения ===" 
-echo "PROJECT_USER='$proj_user'" | sudo tee -a /etc/environment
 
 if [ ! -z $proj_user ]
 then
-    sudo adduser --gecos "" $proj_user
-    sudo usermod -aG sudo $proj_user
+    adduser --gecos "" $proj_user
+    usermod -aG sudo $proj_user
     echo "=== Пользователь '$proj_user' в группе 'sudo' ==="
 
-    echo $proj_user | sudo tee -a /etc/vsftpd.userlist
+    echo $proj_user | tee -a /etc/vsftpd.userlist
     echo "=== Пользователю '$proj_user' открыт доступ по FTP ==="
-fi
 
-mkdir "/home/$proj_user/Scripts"
+    echo "=== Установка переменных окружения ===" 
+    echo "PROJECT_USER='$proj_user'" | tee -a /etc/environment
+fi
 
 echo
 echo "=== Копирование скриптов в каталог пользователя $proj_user ==="
@@ -90,10 +86,12 @@ echo "=== Копирование скриптов в каталог пользо
 git clone https://github.com/Marat2010/Aiogram3
 cp -R Aiogram3/Scripts/.config ~/
 
+cp -R Aiogram3/Scripts /root/
 cp -R Aiogram3/Scripts /home/$proj_user/
-sudo chown -R $proj_user:$proj_user "/home/$proj_user/Scripts"
-chmod +x -R "/home/$proj_user/Scripts"
+
+chown -R $proj_user:$proj_user "/home/$proj_user/Scripts"
 cp -R /home/$proj_user/Scripts/.config /home/$proj_user/
+chmod +x -R "/home/$proj_user/Scripts"
 
 # ---- Смена пароля root-а --------
 
@@ -102,13 +100,8 @@ read -p "=== Сменить у пользователя 'root' пароль? [y/
 
 if [ "$change_passwd_root" == "y" ]
 then
-    sudo passwd root
+    passwd root
 fi
 
 #========================================================
-#gh repo clone Marat2010/Aiogram3
-#wget -O "/home/$proj_user/Scripts/1_start.sh" https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
-#    echo "PROJECT_USER='$proj_user'" | sudo tee -a /etc/environment
-#    echo "=== Пользователь '$proj_user' ==="
-
 
