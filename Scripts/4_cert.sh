@@ -9,11 +9,14 @@ echo "=== Подготовка SSL сертификата для Домена ==
 cd ~
 git clone https://github.com/kshcherban/acme-nginx
 cd acme-nginx
-python setup.py install
-acme-nginx -d $DOMAIN_NAME
+python3 setup.py install
+wait
 
-mv /etc/ssl/nginx/$DOMAIN_NAME.crt /etc/ssl/nginx/$DOMAIN_NAME.crt_old
-mv /etc/ssl/nginx/$DOMAIN_NAME.key /etc/ssl/nginx/$DOMAIN_NAME.key_old
+acme-nginx -d $DOMAIN_NAME
+wait
+
+mv /etc/ssl/nginx/$DOMAIN_NAME.crt /etc/ssl/nginx/$DOMAIN_NAME.crt_self_old
+mv /etc/ssl/nginx/$DOMAIN_NAME.key /etc/ssl/nginx/$DOMAIN_NAME.key_self_old
 
 ln -s /etc/ssl/private/letsencrypt-domain.pem /etc/ssl/nginx/$DOMAIN_NAME.crt
 ln -s /etc/ssl/private/letsencrypt-domain.key /etc/ssl/nginx/$DOMAIN_NAME.key
