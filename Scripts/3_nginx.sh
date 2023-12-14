@@ -7,6 +7,12 @@ if [[ -z $PROJECT_USER || $USER != $PROJECT_USER ]]; then
     exit
 fi
 
+if [[ -z $PROJECT_NAME || -z $DOMAIN_NAME || -z $BOT_TOKEN ]]; then
+    echo "=== Нет необходимых переменных окружения (PROJECT_NAME, DOMAIN_NAME, BOT_TOKEN) ! ==="
+    echo "=== Необходимо перезайти под пользователем проекта: '$PROJECT_USER' (exit, su $PROJECT_USER, cd ~)! ==="
+    exit
+fi
+
 sudo apt update
 echo
 echo "=== Установка пакета Nginx ==="

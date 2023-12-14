@@ -81,7 +81,7 @@ then
 fi
 
 echo
-echo "=== Копирование скриптов в каталог пользователя $proj_user ==="
+echo "=== Копирование скриптов в каталог пользователя '$proj_user' ==="
 
 git clone https://github.com/Marat2010/Aiogram3
 cp -R Aiogram3/Scripts/.config ~/

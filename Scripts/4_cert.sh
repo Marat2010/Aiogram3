@@ -7,6 +7,12 @@ if [ $USER != 'root' ]; then
     exit
 fi
 
+if [[ -z $PROJECT_NAME || -z $DOMAIN_NAME || -z $BOT_TOKEN || -z $EMAIL_SSL ]]; then
+    echo "=== Нет необходимых переменных окружения (PROJECT_NAME, DOMAIN_NAME, BOT_TOKEN, EMAIL_SSL) ! ==="
+    echo "=== Необходимо перезайти под root-ом (exit, exit, ssh root@xxx.xxx.xxx.xxx)! ==="
+    exit
+fi
+
 echo
 echo "=== Установка пакета acme-nginx ===" 
 cd ~
@@ -16,8 +22,8 @@ python3 setup.py install
 wait
 
 echo
-echo "=== Установка бесплатных сертификатов SSL (Let's Encrypt) для домена ==="
-mkdir -p /var/www/html/.well-known/pki-validation
+echo "=== Установка бесплатных сертификатов SSL (Let's Encrypt) для домена (Nginx)==="
+echo "=== Инструкция: https://github.com/kshcherban/acme-nginx"
 acme-nginx -d $DOMAIN_NAME --debug
 wait
 
@@ -48,6 +54,7 @@ echo "=== Адрес WEBHOOK_URL: https://$DOMAIN_NAME:8443/$PROJECT_NAME ==="
 #====================================
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx -m $EMAIL_ZEROSSL --server zerossl
 #~/.acme.sh/acme.sh  --register-account  -m $EMAIL_ZEROSSL --server zerossl
+#mkdir -p /var/www/html/.well-known/pki-validation
 #====================================
 #sudo chown -R marat:marat /var/www/html/
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/sv.conf --server zerossl
