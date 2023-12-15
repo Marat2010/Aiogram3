@@ -84,6 +84,7 @@ echo
 echo "=== Копирование скриптов в каталог пользователя '$proj_user' ==="
 
 git clone https://github.com/Marat2010/Aiogram3
+wait
 
 cp -R Aiogram3/Scripts/.config ~/
 cp -R Aiogram3/Scripts /root/
