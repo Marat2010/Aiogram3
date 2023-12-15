@@ -3,6 +3,7 @@
 This example shows how to use webhook on behind of any reverse proxy (nginx, traefik, ingress etc.)
 """
 import logging
+import ssl
 import sys
 from os import getenv
 
@@ -11,42 +12,61 @@ from aiohttp import web
 from aiogram import Bot, Dispatcher, Router, types
 from aiogram.enums import ParseMode
 from aiogram.filters import CommandStart
-from aiogram.types import Message
+from aiogram.types import FSInputFile, Message
 from aiogram.utils.markdown import hbold
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
+from decouple import AutoConfig  # === Added ===
+
+config = AutoConfig()
+
+FROM_ENV_FILE = False
+SELF_SSL = False
+
 # ============ .env ===================
-# from decouple import AutoConfig
-# config = AutoConfig()
-#TOKEN = config('BOT_TOKEN')
+if FROM_ENV_FILE:
+    TOKEN = config('BOT_TOKEN')
+    WEBHOOK_PATH = "/" + config("PROJECT_NAME")
+    DOMAIN_IP = config("DOMAIN_NAME")
+else:
+    TOKEN = getenv("BOT_TOKEN")
+    WEBHOOK_PATH = "/" + getenv("PROJECT_NAME")
+    DOMAIN_IP = getenv("DOMAIN_NAME")
+
+BASE_WEBHOOK_URL = "https://" + DOMAIN_IP + ":8443"
+
 # =====================================
 
 # Bot token can be obtained via https://t.me/BotFather
-TOKEN = getenv("BOT_TOKEN")
+# TOKEN = getenv("BOT_TOKEN")
 
 # Webserver settings
 # bind localhost only to prevent any external access
-WEB_SERVER_HOST = "127.0.0.1"
+if SELF_SSL:
+    WEB_SERVER_HOST = DOMAIN_IP
+    WEB_SERVER_PORT = 8443
+else:
+    WEB_SERVER_HOST = "127.0.0.1"
+    WEB_SERVER_PORT = 8080
+
 # Port for incoming request from reverse proxy. Should be any available port
-WEB_SERVER_PORT = 8080
+# WEB_SERVER_PORT = 8080
 
 # Path to webhook route, on which Telegram will send requests
 # WEBHOOK_PATH = "/webhook"
-# WEBHOOK_PATH = "/" + config("PROJECT_NAME")
-WEBHOOK_PATH = "/" + getenv("PROJECT_NAME")
-
 # Secret key to validate requests from Telegram (optional)
 WEBHOOK_SECRET = "my-secret"
-
 # Base URL for webhook will be used to generate webhook URL for Telegram,
 # in this example it is used public DNS with HTTPS support
 # BASE_WEBHOOK_URL = "https://aiogram.dev/"
-# BASE_WEBHOOK_URL = "https://8a7c-178-205-151-66.ngrok-free.app"
-# BASE_WEBHOOK_URL = config("DOMAIN_NAME")
-#BASE_WEBHOOK_URL = "https://ub22.z2024.site:8443"
-#BASE_WEBHOOK_URL = getenv("DOMAIN_NAME") + ":8443"
-BASE_WEBHOOK_URL = "https://" + getenv("DOMAIN_NAME") + ":8443"
 
+# ========= For self-signed certificate =======
+# Path to SSL certificate and private key for self-signed certificate.
+# WEBHOOK_SSL_CERT = "/path/to/cert.pem"
+# WEBHOOK_SSL_PRIV = "/path/to/private.key"
+if SELF_SSL:
+    WEBHOOK_SSL_CERT = "../SSL/" + DOMAIN_IP + "_self.crt"
+    WEBHOOK_SSL_PRIV = "../SSL/" + DOMAIN_IP + "_self.key"
 
 # All handlers should be attached to the Router (or Dispatcher)
 router = Router()
@@ -81,22 +101,27 @@ async def echo_handler(message: types.Message) -> None:
 
 
 async def on_startup(bot: Bot) -> None:
-    # If you have a self-signed SSL certificate, then you will need to send a public
-    # certificate to Telegram
-    # await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}",)
-    await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET)
+    if SELF_SSL:
+        # In case when you have a self-signed SSL certificate, you need to send the certificate
+        # itself to Telegram servers for validation purposes
+        # (see https://core.telegram.org/bots/self-signed)
+        # But if you have a valid SSL certificate, you SHOULD NOT send it to Telegram servers.
+        await bot.set_webhook(
+            f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}",
+            certificate=FSInputFile(WEBHOOK_SSL_CERT),
+            secret_token=WEBHOOK_SECRET,
+        )
+    else:
+        await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET)
 
 
+# === (Added) Register shutdown hook to initialize webhook ===
 async def on_shutdown(bot: Bot) -> None:
     """
     Graceful shutdown. This method is recommended by aiohttp docs.
     """
     # Remove webhook.
     await bot.delete_webhook()
-
-    # Close Redis connection.
-    # await dp.storage.close()
-    # await dp.storage.wait_closed()
 
 
 def main() -> None:
@@ -107,6 +132,8 @@ def main() -> None:
 
     # Register startup hook to initialize webhook
     dp.startup.register(on_startup)
+    # === (Added) Register shutdown hook to initialize webhook
+    dp.shutdown.register(on_shutdown)
 
     # Initialize Bot instance with a default parse mode which will be passed to all API calls
     bot = Bot(TOKEN, parse_mode=ParseMode.HTML)
@@ -128,15 +155,23 @@ def main() -> None:
     # Mount dispatcher startup and shutdown hooks to aiohttp application
     setup_application(app, dp, bot=bot)
 
-    dp.shutdown.register(on_shutdown)
-    # app.on_shutdown.append(on_shutdown)
+    if SELF_SSL:  # ==== For self-signed certificate ====
+        # Generate SSL context
+        context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
+        context.load_cert_chain(WEBHOOK_SSL_CERT, WEBHOOK_SSL_PRIV)
 
-    # And finally start webserver
-    web.run_app(app, host=WEB_SERVER_HOST, port=WEB_SERVER_PORT)
+        # And finally start webserver
+        web.run_app(app, host=WEB_SERVER_HOST, port=WEB_SERVER_PORT, ssl_context=context)
+    else:
+        # And finally start webserver
+        web.run_app(app, host=WEB_SERVER_HOST, port=WEB_SERVER_PORT)
 
 
 if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     main()
 
-
+# ================ Creating a self-signed certificate =============================
+# openssl req -newkey rsa:2048 -sha256 -nodes -keyout SSL/PRIVATE_self.key -x509 -days 365
+# -out SSL/PUBLIC_self.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=217.18.63.197"
+# =================================================================================

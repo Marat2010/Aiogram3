@@ -71,6 +71,17 @@
 
     **Всё, проверяем! )**
 
+Для использования самоподписанного сертификата без Nginx, необходимо в main.py установить в 'True':  
+    `FROM_ENV_FILE = True  
+    SELF_SSL = True`
+
+После остановить Nginx, и перезапустить службу:
+    ```
+    sudo systemctl stop nginx.service
+    sudo systemctl daemon-reload
+    sudo systemctl restart Aiogram3_bot.service
+    ```
+
 **Полное описание на <a href="http://habr.ru" target="_blank">хабре</a>.**  
 Видео на [youtube](http://youtube.com).  
 Проверял телеграмма бота здесь: [@RuPyBot](https://t.me/RuPytBot).  
