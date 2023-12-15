@@ -70,19 +70,22 @@
     - Перезапуск Nginx
 
     **Всё, проверяем! )**
-<hr>
-Для использования ***самоподписанного сертификата без Nginx***, необходимо в **main.py** установить в **True**:  
+<hr>  
+
+Для использования переменных окружения из файла **.env**, необходимо в **main.py** установить в **True**:    
     >`FROM_ENV_FILE = True`  
+<hr>
+
+Для использования ***самоподписанного сертификата без Nginx***, необходимо в **main.py** установить в **True**:  
     >`SELF_SSL = True`  
 
 После остановить Nginx, и перезапустить службу:  
     
     sudo systemctl stop nginx.service
-
     systemctl daemon-reload
-
     sudo systemctl restart Aiogram3_bot.service
-<hr>
+<hr>  
+
 **Полное описание на <a href="http://habr.ru" target="_blank">хабре</a>.**  
 Видео на [youtube](http://youtube.com).  
 Проверял телеграмма бота здесь: [@RuPyBot](https://t.me/RuPytBot).  
