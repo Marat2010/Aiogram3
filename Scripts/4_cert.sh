@@ -27,9 +27,6 @@ echo "=== Инструкция: https://github.com/kshcherban/acme-nginx"
 acme-nginx -d $DOMAIN_NAME --debug
 wait
 
-mv /etc/ssl/nginx/$DOMAIN_NAME.crt /etc/ssl/nginx/$DOMAIN_NAME.crt_self_old
-mv /etc/ssl/nginx/$DOMAIN_NAME.key /etc/ssl/nginx/$DOMAIN_NAME.key_self_old
-
 ln -s /etc/ssl/private/letsencrypt-domain.pem /etc/ssl/nginx/$DOMAIN_NAME.crt
 ln -s /etc/ssl/private/letsencrypt-domain.key /etc/ssl/nginx/$DOMAIN_NAME.key
 
@@ -55,6 +52,9 @@ echo "=== Адрес WEBHOOK_URL: https://$DOMAIN_NAME:8443/$PROJECT_NAME ==="
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx -m $EMAIL_ZEROSSL --server zerossl
 #~/.acme.sh/acme.sh  --register-account  -m $EMAIL_ZEROSSL --server zerossl
 #mkdir -p /var/www/html/.well-known/pki-validation
+#====================================
+#mv /etc/ssl/nginx/$DOMAIN_NAME.crt /etc/ssl/nginx/$DOMAIN_NAME.crt_self_old
+#mv /etc/ssl/nginx/$DOMAIN_NAME.key /etc/ssl/nginx/$DOMAIN_NAME.key_self_old
 #====================================
 #sudo chown -R marat:marat /var/www/html/
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/sv.conf --server zerossl

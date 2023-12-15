@@ -16,24 +16,24 @@ from aiogram.types import FSInputFile, Message
 from aiogram.utils.markdown import hbold
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
-from decouple import AutoConfig
+from decouple import AutoConfig  # === Added ===
 
 config = AutoConfig()
-# ENV = True
-ENV = False
+
+FROM_ENV_FILE = True
 SELF_SSL = True
-# SELF_SSL = True
 
 # ============ .env ===================
-if ENV:
+if FROM_ENV_FILE:
     TOKEN = config('BOT_TOKEN')
     WEBHOOK_PATH = "/" + config("PROJECT_NAME")
-    BASE_WEBHOOK_URL = "https://" + config("DOMAIN_NAME") + ":8443"
-    # BASE_WEBHOOK_URL = "https://" + config("DOMAIN_NAME")
+    DOMAIN_IP = config("DOMAIN_NAME")
 else:
     TOKEN = getenv("BOT_TOKEN")
     WEBHOOK_PATH = "/" + getenv("PROJECT_NAME")
-    BASE_WEBHOOK_URL = "https://" + getenv("DOMAIN_NAME") + ":8443"
+    DOMAIN_IP = getenv("DOMAIN_NAME")
+
+BASE_WEBHOOK_URL = "https://" + DOMAIN_IP + ":8443"
 
 # =====================================
 
@@ -43,7 +43,7 @@ else:
 # Webserver settings
 # bind localhost only to prevent any external access
 if SELF_SSL:
-    WEB_SERVER_HOST = config("DOMAIN_NAME") if ENV else getenv("DOMAIN_NAME")
+    WEB_SERVER_HOST = DOMAIN_IP
     WEB_SERVER_PORT = 8443
 else:
     WEB_SERVER_HOST = "127.0.0.1"
@@ -51,7 +51,6 @@ else:
 
 # Port for incoming request from reverse proxy. Should be any available port
 # WEB_SERVER_PORT = 8080
-
 
 # Path to webhook route, on which Telegram will send requests
 # WEBHOOK_PATH = "/webhook"
@@ -63,13 +62,11 @@ WEBHOOK_SECRET = "my-secret"
 
 # ========= For self-signed certificate =======
 # Path to SSL certificate and private key for self-signed certificate.
+# WEBHOOK_SSL_CERT = "/path/to/cert.pem"
+# WEBHOOK_SSL_PRIV = "/path/to/private.key"
 if SELF_SSL:
-    # WEBHOOK_SSL_CERT = "/path/to/cert.pem"
-    # WEBHOOK_SSL_PRIV = "/path/to/private.key"
-    WEBHOOK_SSL_CERT = "../SSL/ub22.rupyt.site.crt"
-    WEBHOOK_SSL_PRIV = "../SSL/ub22.rupyt.site.key"
-
-# ==============================================
+    WEBHOOK_SSL_CERT = "../SSL/" + DOMAIN_IP + "_self.crt"
+    WEBHOOK_SSL_PRIV = "../SSL/" + DOMAIN_IP + "_self.key"
 
 # All handlers should be attached to the Router (or Dispatcher)
 router = Router()
@@ -118,7 +115,7 @@ async def on_startup(bot: Bot) -> None:
         await bot.set_webhook(f"{BASE_WEBHOOK_URL}{WEBHOOK_PATH}", secret_token=WEBHOOK_SECRET)
 
 
-# === (Added) Register shutdown hook to initialize webhook
+# === (Added) Register shutdown hook to initialize webhook ===
 async def on_shutdown(bot: Bot) -> None:
     """
     Graceful shutdown. This method is recommended by aiohttp docs.
@@ -158,15 +155,13 @@ def main() -> None:
     # Mount dispatcher startup and shutdown hooks to aiohttp application
     setup_application(app, dp, bot=bot)
 
-# ========= For self-signed certificate =======
-    if SELF_SSL:
+    if SELF_SSL:  # ==== For self-signed certificate ====
         # Generate SSL context
         context = ssl.SSLContext(ssl.PROTOCOL_TLSv1_2)
         context.load_cert_chain(WEBHOOK_SSL_CERT, WEBHOOK_SSL_PRIV)
 
         # And finally start webserver
         web.run_app(app, host=WEB_SERVER_HOST, port=WEB_SERVER_PORT, ssl_context=context)
-# ===============================================
     else:
         # And finally start webserver
         web.run_app(app, host=WEB_SERVER_HOST, port=WEB_SERVER_PORT)
@@ -176,5 +171,7 @@ if __name__ == "__main__":
     logging.basicConfig(level=logging.INFO, stream=sys.stdout)
     main()
 
-# =================================================================
-# openssl req -newkey rsa:2048 -sha256 -nodes -keyout SSL/PRIVATE_self.key -x509 -days 365 -out SSL/PUBLIC_self.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=78b7-178-205-55-177.ngrok-free.app"
+# ================ Creating a self-signed certificate =============================
+# openssl req -newkey rsa:2048 -sha256 -nodes -keyout SSL/PRIVATE_self.key -x509 -days 365
+# -out SSL/PUBLIC_self.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=217.18.63.197"
+# =================================================================================

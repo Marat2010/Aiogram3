@@ -53,6 +53,15 @@ read -p "=== Введите адрес электронной почты, для
 echo "EMAIL_SSL='$email_ssl'" | sudo tee -a /etc/environment
 
 echo
+echo "=== Запись переменных окружения в файл '.env' проекта '$PROJECT_NAME'==="
+echo "BOT_TOKEN='$BOT_TOKEN'" > ~/$PROJECT_NAME/.env
+echo "PROJECT_USER='$PROJECT_USER'" >> ~/$PROJECT_NAME/.env
+echo "PROJECT_NAME='$PROJECT_NAME'" >> ~/$PROJECT_NAME/.env
+echo "DOMAIN_NAME='$DOMAIN_NAME'" >> ~/$PROJECT_NAME/.env
+echo "EMAIL_SSL='$email_ssl'" >> ~/$PROJECT_NAME/.env
+echo "" >> ~/$PROJECT_NAME/.env
+
+echo
 echo "=== Перезапуск Nginx ==="
 sudo systemctl daemon-reload
 sudo systemctl restart nginx.service

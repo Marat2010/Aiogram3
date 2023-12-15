@@ -84,13 +84,16 @@ echo
 echo "=== Копирование скриптов в каталог пользователя '$proj_user' ==="
 
 git clone https://github.com/Marat2010/Aiogram3
-cp -R Aiogram3/Scripts/.config ~/
 
+cp -R Aiogram3/Scripts/.config ~/
 cp -R Aiogram3/Scripts /root/
+
+cp -R /home/$proj_user/Scripts/.config /home/$proj_user/
 cp -R Aiogram3/Scripts /home/$proj_user/
 
 chown -R $proj_user:$proj_user "/home/$proj_user/Scripts"
-cp -R /home/$proj_user/Scripts/.config /home/$proj_user/
+chown -R $proj_user:$proj_user "/home/$proj_user/.config"
+
 chmod +x -R "/home/$proj_user/Scripts"
 
 # ---- Смена пароля root-а --------

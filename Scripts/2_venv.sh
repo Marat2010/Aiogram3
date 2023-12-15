@@ -28,12 +28,13 @@ sudo cp -R /root/Aiogram3/Nginx ./
 sudo cp -R /root/Aiogram3/html_for_bot ./
 sudo cp /root/Aiogram3/main.py ./
 sudo chown -R $USER:$USER ./
-sudo rm -rf /root/Aiogram3
+#sudo rm -rf /root/Aiogram3
 
 echo
 echo "=== Установка Aiogram 3.2.0 ==="
 pip3 install --upgrade pip
 pip install aiogram==3.2.0
+pip install python-decouple==3.8
 pip freeze > requirements.txt
 
 echo
@@ -49,10 +50,18 @@ echo "PROJECT_NAME='$proj_name'" | sudo tee -a /etc/environment
 echo
 echo "=== Подготовка самоподписанного SSL сертификата для домена (IP) (Nginx) ===" 
 openssl req -newkey rsa:2048 -sha256 -nodes -keyout $domain_name.key -x509 -days 365 -out $domain_name.crt -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=$domain_name"
+
 sudo mkdir /etc/ssl/nginx
+
+sudo cp $domain_name.key /etc/ssl/nginx/$domain_name_self.key
+sudo cp $domain_name.crt /etc/ssl/nginx/$domain_name_self.crt
 sudo mv $domain_name.key /etc/ssl/nginx/$domain_name.key
 sudo mv $domain_name.crt /etc/ssl/nginx/$domain_name.crt
+
 mkdir ~/$PROJECT_NAME/SSL
+
+sudo ln -s /etc/ssl/nginx/$domain_name_self.key ~/$PROJECT_NAME/SSL/$domain_name_self.key
+sudo ln -s /etc/ssl/nginx/$domain_name_self.crt ~/$PROJECT_NAME/SSL/$domain_name_self.crt
 sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
 sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
 
