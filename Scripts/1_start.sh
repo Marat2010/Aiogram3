@@ -89,8 +89,8 @@ wait
 cp -R Aiogram3/Scripts/.config ~/
 cp -R Aiogram3/Scripts /root/
 
-cp -R /home/$proj_user/Scripts/.config /home/$proj_user/
 cp -R Aiogram3/Scripts /home/$proj_user/
+cp -R /home/$proj_user/Scripts/.config /home/$proj_user/
 
 chown -R $proj_user:$proj_user "/home/$proj_user/Scripts"
 chown -R $proj_user:$proj_user "/home/$proj_user/.config"

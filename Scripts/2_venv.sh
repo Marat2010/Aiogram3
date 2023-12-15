@@ -53,15 +53,15 @@ openssl req -newkey rsa:2048 -sha256 -nodes -keyout $domain_name.key -x509 -days
 
 sudo mkdir /etc/ssl/nginx
 
-sudo cp $domain_name.key /etc/ssl/nginx/$domain_name_self.key
-sudo cp $domain_name.crt /etc/ssl/nginx/$domain_name_self.crt
-sudo mv $domain_name.key /etc/ssl/nginx/$domain_name.key
-sudo mv $domain_name.crt /etc/ssl/nginx/$domain_name.crt
+sudo cp $domain_name.key /etc/ssl/nginx/'$domain_name'_self.key
+sudo cp $domain_name.crt /etc/ssl/nginx/'$domain_name'_self.crt
+sudo mv $domain_name.key /etc/ssl/nginx/'$domain_name'.key
+sudo mv $domain_name.crt /etc/ssl/nginx/'$domain_name'.crt
 
 mkdir ~/$PROJECT_NAME/SSL
 
-sudo ln -s /etc/ssl/nginx/$domain_name_self.key ~/$PROJECT_NAME/SSL/$domain_name_self.key
-sudo ln -s /etc/ssl/nginx/$domain_name_self.crt ~/$PROJECT_NAME/SSL/$domain_name_self.crt
+sudo ln -s /etc/ssl/nginx/'$domain_name'_self.key ~/$PROJECT_NAME/SSL/'$domain_name'_self.key
+sudo ln -s /etc/ssl/nginx/'$domain_name'_self.crt ~/$PROJECT_NAME/SSL/'$domain_name'_self.crt
 sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
 sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
 
