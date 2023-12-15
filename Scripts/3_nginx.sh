@@ -66,6 +66,7 @@ echo "=== Перезапуск Nginx ==="
 sudo systemctl daemon-reload
 sudo systemctl restart nginx.service
 
+echo "=== Для запуска 4-ого скрипта 4_cert.sh (установка сертификатов SSL 'Let's Encrypt') ==="
 echo "=== Необходимо перезайти под root-ом: $ exit, $ exit, # ssh root@xxx.xxx.xxx.xxx ==="
 
 #================================

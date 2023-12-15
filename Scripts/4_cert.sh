@@ -48,34 +48,16 @@ echo "=== НАСТРОЙКА ЗАВЕРШЕНА! ==="
 echo "=== Проверка по адресу: https://$DOMAIN_NAME:8443/ ==="
 echo "=== Адрес WEBHOOK_URL: https://$DOMAIN_NAME:8443/$PROJECT_NAME ==="
 
+
 #====================================
-#~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx -m $EMAIL_ZEROSSL --server zerossl
-#~/.acme.sh/acme.sh  --register-account  -m $EMAIL_ZEROSSL --server zerossl
 #mkdir -p /var/www/html/.well-known/pki-validation
-#====================================
-#mv /etc/ssl/nginx/$DOMAIN_NAME.crt /etc/ssl/nginx/$DOMAIN_NAME.crt_self_old
-#mv /etc/ssl/nginx/$DOMAIN_NAME.key /etc/ssl/nginx/$DOMAIN_NAME.key_self_old
-#====================================
-#sudo chown -R marat:marat /var/www/html/
-#~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/sv.conf --server zerossl
-
-#~/.acme.sh/acme.sh --issue -d ub22.rupyt.site --nginx --server letsencrypt -w /var/www/html --debug 2
-#~/.acme.sh/acme.sh  --issue  -d ub22.rupyt.site  --nginx /etc/nginx/sites-available/ub22.rupyt.site.conf --server zerossl -w /var/www/html --log
-
-#~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/nginx_bot.conf -m $EMAIL_ZEROSSL --server zerossl
-# ~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/sv.conf --server zerossl -w /var/www/html --log
 
 #======================================
 #cat certificate.crt ca_bundle.crt >> $DOMAIN_NAME.crt
+#wget -O -  https://get.acme.sh | sh -s email=$EMAIL_ZEROSSL
 #~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/nginx_bot.conf -m $EMAIL_ZEROSSL --server zerossl
-#======================================================
-
-#cat certificate.crt ca_bundle.crt >> certificate.crt
 #http://89.104.69.137/.well-known/pki-validation/C7B53CFFA9F38169AA5203AAE43A0677.txt
 
 #======================================
-
-#wget -O -  https://get.acme.sh | sh -s email=$EMAIL_ZEROSSL
-#~/.acme.sh/acme.sh  --issue  -d $DOMAIN_NAME  --nginx /etc/nginx/sites-available/nginx_bot.conf -m $EMAIL_ZEROSSL --server zerossl
 
 
