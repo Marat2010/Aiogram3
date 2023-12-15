@@ -60,8 +60,8 @@ sudo mv $domain_name.crt /etc/ssl/nginx/$domain_name.crt
 
 mkdir ~/$PROJECT_NAME/SSL
 
-sudo ln -s /etc/ssl/nginx/$domain_name_self.key ~/$PROJECT_NAME/SSL/$domain_name.self.key
-sudo ln -s /etc/ssl/nginx/$domain_name_self.crt ~/$PROJECT_NAME/SSL/$domain_name.self.crt
+sudo ln -s /etc/ssl/nginx/$domain_name.self.key ~/$PROJECT_NAME/SSL/$domain_name.self.key
+sudo ln -s /etc/ssl/nginx/$domain_name.self.crt ~/$PROJECT_NAME/SSL/$domain_name.self.crt
 sudo ln -s /etc/ssl/nginx/$domain_name.key ~/$PROJECT_NAME/SSL/$domain_name.key
 sudo ln -s /etc/ssl/nginx/$domain_name.crt ~/$PROJECT_NAME/SSL/$domain_name.crt
 
