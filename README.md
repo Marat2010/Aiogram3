@@ -79,9 +79,11 @@
     ```
     sudo systemctl stop nginx.service
     ```  
+
     ```
     systemctl daemon-reload
     ```  
+
     ```
     sudo systemctl restart Aiogram3_bot.service
     ```  
