@@ -23,15 +23,14 @@ echo
 echo "=== Настройка Nginx ==="
 chmod +x ~/$PROJECT_NAME/Nginx/*
 ~/$PROJECT_NAME/Nginx/nginx_bot_conf.sh
-~/$PROJECT_NAME/Nginx/sv_conf.sh
 ~/$PROJECT_NAME/Nginx/DOMAIN.sh
+~/$PROJECT_NAME/Nginx/www/html/index.sh
+~/$PROJECT_NAME/Nginx/www/ind/ind.sh
 
 sudo cp ~/$PROJECT_NAME/Nginx/nginx_bot.conf /etc/nginx/sites-available/
-sudo cp ~/$PROJECT_NAME/Nginx/sv.conf /etc/nginx/sites-available/
 sudo cp ~/$PROJECT_NAME/Nginx/$DOMAIN_NAME.conf /etc/nginx/sites-available/
 
 sudo ln -s /etc/nginx/sites-available/nginx_bot.conf /etc/nginx/sites-enabled/nginx_bot
-sudo ln -s /etc/nginx/sites-available/sv.conf /etc/nginx/sites-enabled/sv
 sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME.conf /etc/nginx/sites-enabled/$DOMAIN_NAME.conf
 #sudo rm -f /etc/nginx/sites-enabled/default
 
@@ -46,8 +45,8 @@ sudo usermod -aG $PROJECT_USER www-data
 
 # ---- iframe для html страниц, для показа конфигурации Nginx --------
 sudo ln -s /etc/nginx/sites-available/nginx_bot.conf ~/$PROJECT_NAME/html_for_bot/nginx_bot_conf.txt
-sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/html/sv_conf.txt
-sudo ln -s /etc/nginx/sites-available/sv.conf /var/www/ind/sv_conf.txt
+sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME.conf /var/www/html/$DOMAIN_NAME.txt
+sudo ln -s /etc/nginx/sites-available/$DOMAIN_NAME.conf /var/www/ind/$DOMAIN_NAME.txt
 
 read -p "=== Введите адрес электронной почты, для получения информации об обновлении сертификатов (для cron-а): " email_ssl
 echo "EMAIL_SSL='$email_ssl'" | sudo tee -a /etc/environment

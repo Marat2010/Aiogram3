@@ -27,6 +27,8 @@ echo "=== Инструкция: https://github.com/kshcherban/acme-nginx"
 acme-nginx -d $DOMAIN_NAME --debug
 wait
 
+rm -f /etc/ssl/nginx/$DOMAIN_NAME.crt
+rm -f /etc/ssl/nginx/$DOMAIN_NAME.key
 ln -s /etc/ssl/private/letsencrypt-domain.pem /etc/ssl/nginx/$DOMAIN_NAME.crt
 ln -s /etc/ssl/private/letsencrypt-domain.key /etc/ssl/nginx/$DOMAIN_NAME.key
 
