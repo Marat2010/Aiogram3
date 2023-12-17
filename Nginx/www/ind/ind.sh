@@ -12,7 +12,7 @@ echo "<!DOCTYPE html>
     <hr>
     <p style='font-size:16px'>Файл конфигурации <b>/etc/nginx/sites-available/$DOMAIN_NAME.conf</b></p>
     <pre>
-        <iframe src='$DOMAIN_NAME.txt' height='350' width='600' style='border:2px solid LightBlue;'></iframe>
+        <iframe src='$DOMAIN_NAME.txt' height='330' width='600' style='border:2px solid LightBlue;'></iframe>
     </pre>
     <hr>
 </body>
