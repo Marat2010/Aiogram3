@@ -16,57 +16,42 @@ from aiogram.types import FSInputFile, Message
 from aiogram.utils.markdown import hbold
 from aiogram.webhook.aiohttp_server import SimpleRequestHandler, setup_application
 
-from decouple import AutoConfig  # === Added ===
-
-config = AutoConfig()
-
-FROM_ENV_FILE = False
 SELF_SSL = False
 
-# ============ .env ===================
-if FROM_ENV_FILE:
-    TOKEN = config('BOT_TOKEN')
-    WEBHOOK_PATH = "/" + config("PROJECT_NAME")
-    DOMAIN_IP = config("DOMAIN_NAME")
-else:
-    TOKEN = getenv("BOT_TOKEN")
-    WEBHOOK_PATH = "/" + getenv("PROJECT_NAME")
-    DOMAIN_IP = getenv("DOMAIN_NAME")
-
-BASE_WEBHOOK_URL = "https://" + DOMAIN_IP + ":8443"
-
-# =====================================
-
 # Bot token can be obtained via https://t.me/BotFather
-# TOKEN = getenv("BOT_TOKEN")
-
-# Webserver settings
-# bind localhost only to prevent any external access
-if SELF_SSL:
-    WEB_SERVER_HOST = DOMAIN_IP
-    WEB_SERVER_PORT = 8443
-else:
-    WEB_SERVER_HOST = "127.0.0.1"
-    WEB_SERVER_PORT = 8080
-
-# Port for incoming request from reverse proxy. Should be any available port
-# WEB_SERVER_PORT = 8080
+TOKEN = getenv("BOT_TOKEN")
 
 # Path to webhook route, on which Telegram will send requests
-# WEBHOOK_PATH = "/webhook"
-# Secret key to validate requests from Telegram (optional)
-WEBHOOK_SECRET = "my-secret"
+WEBHOOK_PATH = "/" + getenv("PROJECT_NAME")
+
+DOMAIN = getenv("DOMAIN_IP") if SELF_SSL else getenv("DOMAIN_NAME")
+EXTERNAL_PORT = 8443
+
 # Base URL for webhook will be used to generate webhook URL for Telegram,
 # in this example it is used public DNS with HTTPS support
 # BASE_WEBHOOK_URL = "https://aiogram.dev/"
+BASE_WEBHOOK_URL = "https://" + DOMAIN + ":" + str(EXTERNAL_PORT)
+
+if SELF_SSL:
+    WEB_SERVER_HOST = DOMAIN
+    WEB_SERVER_PORT = EXTERNAL_PORT
+else:
+    # Webserver settings
+    # bind localhost only to prevent any external access
+    WEB_SERVER_HOST = "127.0.0.1"
+    # Port for incoming request from reverse proxy. Should be any available port
+    WEB_SERVER_PORT = 8080
+
+# Secret key to validate requests from Telegram (optional)
+WEBHOOK_SECRET = "my-secret"
 
 # ========= For self-signed certificate =======
 # Path to SSL certificate and private key for self-signed certificate.
 # WEBHOOK_SSL_CERT = "/path/to/cert.pem"
 # WEBHOOK_SSL_PRIV = "/path/to/private.key"
 if SELF_SSL:
-    WEBHOOK_SSL_CERT = "../SSL/" + DOMAIN_IP + "_self.crt"
-    WEBHOOK_SSL_PRIV = "../SSL/" + DOMAIN_IP + "_self.key"
+    WEBHOOK_SSL_CERT = "../SSL/" + DOMAIN + ".self.crt"
+    WEBHOOK_SSL_PRIV = "../SSL/" + DOMAIN + ".self.key"
 
 # All handlers should be attached to the Router (or Dispatcher)
 router = Router()
@@ -174,4 +159,13 @@ if __name__ == "__main__":
 # ================ Creating a self-signed certificate =============================
 # openssl req -newkey rsa:2048 -sha256 -nodes -keyout SSL/PRIVATE_self.key -x509 -days 365
 # -out SSL/PUBLIC_self.pem -subj "/C=RU/ST=RT/L=KAZAN/O=Home/CN=217.18.63.197"
+# =============== For values from .env file ============================================
+# from dotenv import load_dotenv, dotenv_values
+# config = dotenv_values(".env_dev")
+# DOMAIN = config['DOMAIN_NAME']
+# FROM_ENV_FILE = True
 # =================================================================================
+# from decouple import AutoConfig
+# config = AutoConfig()
+# =================================================================================
+

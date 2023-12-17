@@ -49,6 +49,7 @@ echo
 echo "=== НАСТРОЙКА ЗАВЕРШЕНА! ==="
 echo "=== Проверка по адресу: https://$DOMAIN_NAME:8443/ ==="
 echo "=== Адрес WEBHOOK_URL: https://$DOMAIN_NAME:8443/$PROJECT_NAME ==="
+echo "=== Проверка состояния ТГ вебхука: https://api.telegram.org/bot$BOT_TOKEN/getWebhookInfo ==="
 
 
 #====================================

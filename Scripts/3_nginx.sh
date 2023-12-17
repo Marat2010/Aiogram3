@@ -56,6 +56,7 @@ echo "=== Запись переменных окружения в файл '.env
 echo "BOT_TOKEN='$BOT_TOKEN'" > ~/$PROJECT_NAME/.env
 echo "PROJECT_USER='$PROJECT_USER'" >> ~/$PROJECT_NAME/.env
 echo "PROJECT_NAME='$PROJECT_NAME'" >> ~/$PROJECT_NAME/.env
+echo "DOMAIN_IP='$DOMAIN_NAME'" >> ~/$PROJECT_NAME/.env
 echo "DOMAIN_NAME='$DOMAIN_NAME'" >> ~/$PROJECT_NAME/.env
 echo "EMAIL_SSL='$email_ssl'" >> ~/$PROJECT_NAME/.env
 echo "" >> ~/$PROJECT_NAME/.env
