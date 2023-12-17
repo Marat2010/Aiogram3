@@ -13,6 +13,15 @@ if [[ -z $PROJECT_NAME || -z $DOMAIN_NAME || -z $BOT_TOKEN || -z $EMAIL_SSL ]]; 
     exit
 fi
 
+#===================
+rm -f /etc/nginx/sites-enabled/nginx_bot
+rm -f /etc/nginx/sites-enabled/$DOMAIN_NAME.conf
+echo
+echo "=== Перезапуск Nginx ==="
+systemctl daemon-reload
+systemctl restart nginx.service
+#===================
+
 echo
 echo "=== Установка пакета acme-nginx ===" 
 cd ~
@@ -20,14 +29,20 @@ git clone https://github.com/kshcherban/acme-nginx
 cd acme-nginx
 python3 setup.py install
 wait
-sleep 5
+#sleep 2
 
 echo
 echo "=== Установка бесплатных сертификатов SSL (Let's Encrypt) для домена (Nginx)==="
 echo "=== Инструкция: https://github.com/kshcherban/acme-nginx"
 acme-nginx -d $DOMAIN_NAME --debug
 wait
-sleep 5
+#sleep 2
+
+#===================
+ln -s /etc/nginx/sites-available/nginx_bot.conf /etc/nginx/sites-enabled/nginx_bot
+ln -s /etc/nginx/sites-available/$DOMAIN_NAME.conf /etc/nginx/sites-enabled/$DOMAIN_NAME.conf
+#===================
+
 #rm -f /etc/ssl/nginx/$DOMAIN_NAME.crt
 #rm -f /etc/ssl/nginx/$DOMAIN_NAME.key
 #ln -s /etc/ssl/private/letsencrypt-domain.pem /etc/ssl/nginx/$DOMAIN_NAME.crt
