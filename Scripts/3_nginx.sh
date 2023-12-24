@@ -66,7 +66,7 @@ echo
 echo "=== Перезапуск Nginx ==="
 sudo systemctl daemon-reload
 sudo systemctl restart nginx.service
-
+echo
 echo "=== Для запуска 4-ого скрипта 4_cert.sh (установка сертификатов SSL 'Let's Encrypt') ==="
 echo "=== 1. Необходимо убедится, что наш веб сервер, доступен по имени домена: http://$DOMAIN_NAME  ==="
 echo "=== 2. Необходимо перезайти под root-ом: $ exit, $ exit, # ssh root@$DOMAIN_IP ==="

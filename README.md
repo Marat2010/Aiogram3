@@ -82,7 +82,7 @@
 После остановить **Nginx**, и перезапустить службу **Aiogram3_bot**:  
     
     sudo systemctl stop nginx.service
-    systemctl daemon-reload
+    sudo systemctl daemon-reload
     sudo systemctl restart Aiogram3_bot.service
 <hr>  
 
