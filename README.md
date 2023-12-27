@@ -73,7 +73,7 @@
     - Настройка автоматического обновления сертификатов
     - Перезапуск Nginx
 
-    **Всё, проверяем! )**
+    **Всё, проверяем бота! )**
 <hr>  
 
 Для использования ***самоподписанного сертификата без Nginx***, необходимо в **main.py** установить в **True**:  
@@ -84,9 +84,10 @@
     sudo systemctl stop nginx.service
     sudo systemctl daemon-reload
     sudo systemctl restart Aiogram3_bot.service
+
+    **Можно проверять бота! )**
 <hr>  
 
-**Полное описание на <a href="http://habr.ru" target="_blank">хабре</a>.**  
-Видео на [youtube](http://youtube.com).  
-Проверял телеграмма бота здесь: [@RuPyBot](https://t.me/RuPytBot).  
+**Полное описание на <a href="https://habr.com/ru/articles/783398/" target="_blank">хабре</a>.**  
+**Видео обзор на [youtube](https://youtu.be/Rk9U3SrB0Go).**  
 
