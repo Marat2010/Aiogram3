@@ -7,9 +7,9 @@
 Полный цикл работ по размещению бота на Aiogram3 c webhook, SSL на VPS/VDS.  
 Проверено на ОС серверов Timeweb, Рег.ру:  Ubuntu 20.04, Ubuntu 22.04.
 
-1. Подключаемся к серверу `ssh root@xxx.xxx.xxx.xxx` .  
+1. Подключаемся к серверу `ssh root@xxx.xxx.xxx.xxx` и выполняем последовательно все команды.    
 
-2. Скачиваем первый скрипт:  
+2. Скачиваем первый скрипт, выполним команду:  
     ```
     wget https://raw.githubusercontent.com/Marat2010/Aiogram3/master/Scripts/1_start.sh
     ```
