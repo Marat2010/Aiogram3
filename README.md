@@ -88,6 +88,6 @@
    **Можно проверять бота! )**
 <hr>  
 
-**Полное описание на <a href="https://habr.com/ru/articles/783398/" target="_blank">хабре</a>.**  
-**Видео обзор на [youtube](https://youtu.be/Rk9U3SrB0Go){target="_blank"}.**  
+**Полное описание на <a href='https://habr.com/ru/articles/783398/' target='_blank'>хабре</a> .**  
+**Видео обзор на [youtube](https://youtu.be/Rk9U3SrB0Go) .**  
 
