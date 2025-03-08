@@ -25,8 +25,11 @@ systemctl restart nginx.service
 echo
 echo "=== Установка пакета acme-nginx ===" 
 cd ~
-git clone https://github.com/kshcherban/acme-nginx
-cd acme-nginx
+#git clone https://github.com/kshcherban/acme-nginx
+#cd acme-nginx
+#tar -xf Scripts/acme-nginx-0.3.3.tar.gz -C ~/
+tar -xf Scripts/acme-nginx-0.3.3.tar.gz
+cd acme-nginx-0.3.3
 python3 setup.py install
 wait
 #sleep 2
