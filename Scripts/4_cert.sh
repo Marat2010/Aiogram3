@@ -37,7 +37,8 @@ wait
 echo
 echo "=== Установка бесплатных сертификатов SSL (Let's Encrypt) для домена (Nginx)==="
 echo "=== Инструкция: https://github.com/kshcherban/acme-nginx"
-acme-nginx -d $DOMAIN_NAME --debug
+#acme-nginx -d $DOMAIN_NAME --debug
+acme-nginx -d $DOMAIN_NAME
 wait
 #sleep 2
 
